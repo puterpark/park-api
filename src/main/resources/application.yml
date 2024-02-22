@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+
+spring:
+  profiles:
+    active: local
+
+  threads:
+    virtual:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    org.springframework.boot.SpringApplication: info
+    org.springframework.boot: error
+    org.springframework.web: error
+    org.springframework.security: error
+    us.puter.park: debug
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%5p]) [%thread] %cyan(%logger) - %msg%n"
