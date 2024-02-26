@@ -12,6 +12,21 @@ spring:
     virtual:
       enabled: true
 
+  datasource:
+    primary:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ENC(JaLrajkeued2mbY9q+n+FN+0ZVV08tSYCNH3FBYmIrG5coNfty2pe2zrxDx+x741)
+      username: ENC(uLTQ08k3Yxqe7xbMoAVknQ==)
+      password: ENC(E+gwh1TBpsjWC/xYyfwP64W6grsvlnYS)
+    replica:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ENC(BtXZinQCa/VY0Y7XFH9cTcWqy3ZS7g6pHz+4Yk9CD4olNJYN5d05Q9N8ujHoXm6x)
+      username: ENC(ISqamVrX52GpJ5Ek4NhERA==)
+      password: ENC(J/cPIpIJRqun07Yl1LQjqFfFD9Z2ZRXp)
+
+  jooq:
+    sql-dialect: postgres
+
 logging:
   level:
     root: info

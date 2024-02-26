@@ -1,40 +1,122 @@
+import nu.studer.gradle.jooq.JooqEdition
+
+buildscript {
+    configurations['classpath'].resolutionStrategy.eachDependency {
+        if (requested.group.startsWith('org.jooq') && requested.name.startsWith('jooq')) {
+            useVersion '3.17.3'
+        }
+    }
+}
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.2'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'nu.studer.jooq' version '9.0'
 }
 
 group = 'us.puter'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+    sourceCompatibility = '21'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// spring
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// lombok
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
-	// commons-lang3
-	implementation 'org.apache.commons:commons-lang3:3.14.0'
-	// jasypt
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-	// uuid-creator
-	implementation 'com.github.f4b6a3:uuid-creator:5.3.7'
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    // jasypt
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+    // uuid-creator
+    implementation 'com.github.f4b6a3:uuid-creator:5.3.7'
+    // jooq
+    runtimeOnly 'org.postgresql:postgresql'
+    jooqGenerator 'org.postgresql:postgresql:42.7.0'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+def JDBC_URL = System.getenv('JDBC_URL')
+def JDBC_USER = System.getenv('JDBC_USER')
+def JDBC_PASSWORD = System.getenv('JDBC_PASSWORD')
+
+jooq {
+    version = '3.18.7'
+    edition = JooqEdition.OSS
+
+    configurations {
+
+        main {
+            generateSchemaSourceOnCompilation = true
+
+            generationTool {
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = JDBC_URL
+                    user = JDBC_USER
+                    password = JDBC_PASSWORD
+                }
+
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        inputSchema = 'public'
+                        forcedTypes {
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'JSONB?'
+                            }
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'INET'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                        javaTimeTypes = true
+                        pojosAsJavaRecordClasses = true
+                        daos = true
+                        springAnnotations = true
+                        springDao = true
+                    }
+                    target {
+                        packageName = 'generated.jooq.obj'
+                        directory = 'src/generated/jooq'
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
 }

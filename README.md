@@ -4,4 +4,6 @@
 ---
 * `openjdk 21`
 * `spring boot 3.2.2`
+* `jooq 3.18.7`
+* `postgresql 16.1`
 ---
