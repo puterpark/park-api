@@ -1,4 +1,7 @@
 import nu.studer.gradle.jooq.JooqEdition
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
 
 buildscript {
     configurations['classpath'].resolutionStrategy.eachDependency {
@@ -20,6 +23,10 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
+}
+
+bootJar {
+    archiveFileName = 'park-api.jar'
 }
 
 configurations {
@@ -119,4 +126,22 @@ jooq {
             }
         }
     }
+}
+
+task addLombokAnnotations {
+    doLast {
+        fileTree('src/generated/jooq').include('**/*.java').each { File file ->
+            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), StandardCharsets.UTF_8)
+            def classPattern = ~/(\npublic record .*\()/
+            def matcher = classPattern.matcher(content)
+            if (matcher.find()) {
+                String modifiedContent = content.replaceAll(classPattern, "\n@lombok.Builder\$1")
+                Files.write(Paths.get(file.toURI()), modifiedContent.getBytes(StandardCharsets.UTF_8))
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    finalizedBy addLombokAnnotations
 }
