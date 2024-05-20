@@ -7,11 +7,9 @@ server:
 spring:
   profiles:
     active: local
-
   threads:
     virtual:
       enabled: true
-
   datasource:
     primary:
       driver-class-name: org.postgresql.Driver
@@ -23,7 +21,6 @@ spring:
       jdbc-url: ENC(BtXZinQCa/VY0Y7XFH9cTcWqy3ZS7g6pHz+4Yk9CD4olNJYN5d05Q9N8ujHoXm6x)
       username: ENC(ISqamVrX52GpJ5Ek4NhERA==)
       password: ENC(J/cPIpIJRqun07Yl1LQjqFfFD9Z2ZRXp)
-
   jooq:
     sql-dialect: postgres
 
@@ -35,6 +32,10 @@ logging:
     org.springframework.web: error
     org.springframework.security: error
     us.puter.park: debug
-
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%5p]) [%thread] %cyan(%logger) - %msg%n"
+
+jwt:
+  secret: ENC(XXs167f7/pl/6Ad0xw6uebwq6vRl2vyKd1qcs3br0Ad+DRTnAwcE6SVufMpYzB98T6JEn7fbq/z+QRyDCvfl0HyHXaztXSa/QUWIc5/tk5W5ILJ7IYI9+Ykvh9qiijix1EQqMNl5Y6U0JSjOFCW3u3FDaI1OJupVE6Z+FpjNBX/Z0L0MEpmlCV8I7eLHajlU)
+  access-token-valid-second: 7200
+  refresh-token-valid-second: 86400

@@ -1,4 +1,4 @@
-package us.puter.park.config;
+package us.puter.park.common.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;

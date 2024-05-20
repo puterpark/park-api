@@ -1,0 +1,48 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    primary:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ENC(PVCPR6myoqj1Lg+kCF8JbUQj4gR+6e58FsLFm0WMFKowIG0MhF369vcRHu4/DlLA)
+      username: ENC(9FB1E3yXpo9ypQkbF7Tieg==)
+      password: ENC(tH8WrTlsZ+ArVlAjJN0vnb6/GecVX8wv)
+    replica:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ENC(u3YNcqcRm1luP/ZIXPIe+mLlCS9//G1awyYYcMDCD2ZqZ9YDDPXoNIGwIDhd0OOb)
+      username: ENC(neXRyeLvqqKjy7fU10jPEA==)
+      password: ENC(L+bmv3c+k6g5nUf48dQvqCdKb43gkEbT)
+  jooq:
+    sql-dialect: postgres
+  main:
+    banner-mode: log
+
+logging:
+  level:
+    root: error
+    org.springframework.boot.SpringApplication: info
+    org.springframework.boot: error
+    org.springframework.web: error
+    org.springframework.security: error
+    us.puter.park: info
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] [%thread] %logger - %msg%n"
+  file:
+    name: ./logs/park-api.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ./logs/park-api_%d{yyyy-MM-dd}_%i.log
+      max-history: 30
+      max-file-size: 20MB
+
+jwt:
+  secret: ENC(1pYwBD9HcP7oY6szddIvI0t2/fbdzILBFQ1h66NGwyT4mw5fLilnNrI8sQMWgy+9dZAaYgfhnNJhBxxXq1kOVOXw/+t64mDjtdY4ddDiK979wjLFCxf7vtXWk0UV0mVjJF99SK0D7dWToiVQWsqngpqY3vnaZMf5jrABWlQW0ujdwP3PqfmTXciiRssF2h8V)
+  access-token-valid-second: 7200
+  refresh-token-valid-second: 86400

@@ -1,7 +1,7 @@
 package us.puter.park.util;
 
 import org.apache.commons.lang3.StringUtils;
-import us.puter.park.config.JasyptConfig;
+import us.puter.park.common.config.JasyptConfig;
 
 public class JasyptUtils {
 
@@ -22,7 +22,7 @@ public class JasyptUtils {
      */
     public static String decStringByJasypt(String encString) {
         if (StringUtils.contains(encString, "ENC(")) {
-            encString = encString.substring(4, encString.length() -1);
+            encString = encString.substring(4, encString.length() - 1);
         }
         JasyptConfig jasyptConfig = new JasyptConfig();
         return jasyptConfig.stringEncryptor().decrypt(encString);

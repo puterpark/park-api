@@ -1,4 +1,4 @@
-package us.puter.park.config;
+package us.puter.park.common.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
