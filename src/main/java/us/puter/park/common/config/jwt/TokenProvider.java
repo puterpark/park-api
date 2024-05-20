@@ -17,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import us.puter.park.api.member.domain.PrincipalDetails;
-import us.puter.park.api.member.dto.TokenResDto;
+import us.puter.park.api.member.dto.TokenDto;
 import us.puter.park.api.member.service.CustomUserDetailsService;
 import us.puter.park.common.exception.BusinessException;
 import us.puter.park.common.exception.ErrorCode;
@@ -60,7 +60,7 @@ public class TokenProvider implements InitializingBean {
      * @param details
      * @return
      */
-    public TokenResDto generateTokenDto(PrincipalDetails details) {
+    public TokenDto generateTokenDto(PrincipalDetails details) {
         return createTokens(details.id(), details.role());
     }
 
@@ -70,14 +70,24 @@ public class TokenProvider implements InitializingBean {
      * @param authorities
      * @return
      */
-    private TokenResDto createTokens(String id, String authorities) {
+    private TokenDto createTokens(String id, String authorities) {
         String accessToken = createAccessToken(id, authorities);
         String refreshToken = createRefreshToken(id);
 
-        return TokenResDto.builder()
+        return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    /**
+     * accessToken 재발급
+     * @param id
+     * @param authorities
+     * @return
+     */
+    public String recreateAccessToken(String id, String authorities) {
+        return createAccessToken(id, authorities);
     }
 
     /**

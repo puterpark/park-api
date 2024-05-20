@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new BusinessException(ErrorCode.NOT_FOUND_MEMBER);
         }
 
-        return null;
+        return createUserDetails(member);
     }
 
     @Transactional(readOnly = true)

@@ -39,3 +39,9 @@ jwt:
   secret: ENC(XXs167f7/pl/6Ad0xw6uebwq6vRl2vyKd1qcs3br0Ad+DRTnAwcE6SVufMpYzB98T6JEn7fbq/z+QRyDCvfl0HyHXaztXSa/QUWIc5/tk5W5ILJ7IYI9+Ykvh9qiijix1EQqMNl5Y6U0JSjOFCW3u3FDaI1OJupVE6Z+FpjNBX/Z0L0MEpmlCV8I7eLHajlU)
   access-token-valid-second: 7200
   refresh-token-valid-second: 86400
+
+system:
+  # AES256 암호화 키
+  secret-key: ENC(gmmLJJ7tbFRFTiPMjZ2TenqmTyLhEnRHP4PPXPdEqETCrILe6aTPBnyjF1vSRp7L)
+  # CORS Allowed Origin
+  cors-allowed-origin: puter.us

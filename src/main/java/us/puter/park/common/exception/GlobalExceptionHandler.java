@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<HttpResponseDto<?>> handleBusinessException(final BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
         StringBuilder sb = new StringBuilder();
-        sb.append(getStackStrace(e));
+        sb.append(getStackStrace(e)).append(" ");
         sb.append("BusinessException Occurred [").append(errorCode.getMessage()).append("]");
         if (e.getData() != null && !errorCode.getMessage().equals(e.getData())) {
             sb.append(", ").append(e.getData());

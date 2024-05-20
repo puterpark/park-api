@@ -27,6 +27,8 @@ public enum ErrorCode {
     , ALREADY_EXISTS_DATA(400, "F1003", "Already Exists Data")
     , NOT_FOUND_DATA(400, "F1004", "Not Found Data")
     , NOT_FOUND_MEMBER(400, "F1005", "Not Found Member")
+    , INVALID_ENUM_VALUE(400, "F1006", "Invalid Enum Value")
+    , NOT_FOUND_REFRESH_TOKEN(400, "F1007", "Not Found Refresh Token")
     ;
 
     private final int status;
