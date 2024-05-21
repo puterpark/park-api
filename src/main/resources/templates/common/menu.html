@@ -20,7 +20,7 @@
             <span>접속 IP : <span th:text="${ip}"></span></span>
           </li>
           <li class="nav-item">
-            <a class="nav-link ripple ${mode eq 'home' ? 'active' : ''}" href="/" data-url="/">
+            <a class="nav-link ripple" th:classappend="${mode == 'home'} ? 'active' : ''" href="/" data-url="/">
               <i class="icon s-4 icon-home"></i>
               <span>home</span>
             </a>
@@ -29,19 +29,25 @@
             <span>nas</span>
           </li>
           <li class="nav-item">
-            <a class="nav-link ripple " href="https://nas.puter.us" data-url="/">
+            <a class="nav-link ripple" href="https://nas.puter.us" data-url="/">
               <i class="icon s-4 icon-package-variant-closed"></i>
               <span>sinoli</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link ripple " href="https://jen.puter.us" data-url="/">
+            <a class="nav-link ripple" href="https://jen.puter.us" data-url="/">
               <i class="icon s-4 icon-package-variant"></i>
               <span>jenkins</span>
             </a>
           </li>
           <li class="subheader">
             <span>tools</span>
+          </li>
+          <li class="nav-item" th:each="menu : ${menuList}">
+            <a class="nav-link ripple" data-url="/" th:href="${menu.uri}" th:classappend="${mode == menu.mode} ? 'active' : ''" >
+              <i class="icon s-4" th:classappend="${menu.icon}"></i>
+              <span th:text="${menu.name}"></span>
+            </a>
           </li>
         </ul>
       </div>

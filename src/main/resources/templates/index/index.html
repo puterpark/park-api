@@ -11,12 +11,12 @@
       <div class="content custom-scrollbar">
         <div id="project-dashboard" class="page-layout simple right-sidebar">
           <div class="page-content-wrapper custom-scrollbar">
-<!--            <th:block th:replace="~{common/top :: top}"></th:block>-->
+            <th:block th:replace="~{common/top :: top}"></th:block>
             <!-- CONTENT -->
             <div class="page-content">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link btn ${mode eq 'home' ? 'active' : ''}" id="home-tab" href="/">
+                  <a class="nav-link btn" th:classappend="${mode == 'home'} ? 'active' : ''" id="home-tab" href="/">
                     <i class="icon s-4 icon-home"></i>
                     home
                   </a>
@@ -26,7 +26,7 @@
                 <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
                   <!-- WIDGET GROUP -->
                   <div class="widget-group row no-gutters adfit">
-<!--                    <th:block th:replace="~{common/adfit :: adfit}"></th:block>-->
+                    <th:block th:replace="~{common/adfit :: adfit}"></th:block>
                   </div>
                   <div class="widget-group row no-gutters">
                     <div class="col-6 col-sm-6 col-xl-3 p-1">
@@ -51,6 +51,19 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-6 col-sm-6 col-xl-3 p-1" th:each="menu : ${menuList}">
+                      <div class="widget widget1 card">
+                        <div class="widget-content pt-2 pb-8 d-flex flex-column align-items-center justify-content-center">
+                          <div class="sub-title h6 text-muted">&nbsp;</div>
+                          <button type="button" class="btn btn-outline-secondary"
+                                  th:uri="${menu.uri}"
+                                  th:onclick="goMenu(this.getAttribute('uri'))">
+                            <i class="icon s-4 btn-outline-secondary" th:classappend="${menu.icon}"></i>
+                            [[${menu.name}]]
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <!-- / WIDGET GROUP -->
                 </div>
@@ -63,6 +76,6 @@
     </div>
   </div>
 </main>
-<!--<th:block th:replace="~{common/footer :: footer}"></th:block>-->
+<th:block th:replace="~{common/footer :: footer}"></th:block>
 </body>
 </html>

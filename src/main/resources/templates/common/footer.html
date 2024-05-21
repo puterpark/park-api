@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="footer">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EL733GSGGN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EL733GSGGN');
+  </script>
+
+  <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+  <script type="text/javascript">
+    if(!wcs_add) var wcs_add = {};
+    wcs_add["wa"] = "cc021497d20570";
+    if(window.wcs) {
+      wcs_do();
+    }
+  </script>
+
+  <div id="loader" class="loader hidden">
+    <div class="loader_wrap">
+      <img src="/static/images/gear.gif" class="gear" />
+    </div>
+  </div>
+</th:block>
+</html>

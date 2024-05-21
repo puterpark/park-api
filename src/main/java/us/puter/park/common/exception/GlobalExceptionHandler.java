@@ -1,7 +1,7 @@
 package us.puter.park.common.exception;
 
-import us.puter.park.common.http.HttpApiResponse;
-import us.puter.park.common.http.HttpResponseDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +12,12 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import us.puter.park.common.http.HttpApiResponse;
+import us.puter.park.common.http.HttpResponseDto;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -158,10 +162,15 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(NoResourceFoundException.class)
-    protected ResponseEntity<HttpResponseDto<?>> handleNoResourceFoundException(final NoResourceFoundException e) {
-        ErrorCode errorCode = ErrorCode.NOT_FOUND_RESOURCE;
-        HttpResponseDto<?> responseDto = HttpApiResponse.errorOf(errorCode);
-        return new ResponseEntity<>(responseDto, HttpStatus.valueOf(errorCode.getStatus()));
+    protected ResponseEntity<HttpResponseDto<?>> handleNoResourceFoundException(final NoResourceFoundException e, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String requestUri = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        if (requestUri != null && requestUri.startsWith("api/v")) {
+            ErrorCode errorCode = ErrorCode.NOT_FOUND_RESOURCE;
+            HttpResponseDto<?> responseDto = HttpApiResponse.errorOf(errorCode);
+            return new ResponseEntity<>(responseDto, HttpStatus.valueOf(errorCode.getStatus()));
+        }
+        response.sendRedirect("/error/404");
+        return null;
     }
 
     /**

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="top-menu">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link btn" th:classappend="${mode == 'home'} ? 'active' : ''" id="home-tab" href="/">
+        <i class="icon s-4 icon-home"></i>
+        home
+      </a>
+    </li>
+  </ul>
+</th:block>
+</html>
