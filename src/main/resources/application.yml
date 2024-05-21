@@ -31,6 +31,7 @@ logging:
     org.springframework.boot: error
     org.springframework.web: error
     org.springframework.security: error
+    org.jooq.tools.LoggerListener: debug
     us.puter.park: debug
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%5p]) [%thread] %cyan(%logger) - %msg%n"

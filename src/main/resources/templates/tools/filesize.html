@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{common/head :: head}"></th:block>
+  <script type="text/javascript" src="/static/js/mousetrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="/static/js/pages/tools/filesize.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="/static/css/pages/tools/filesize.css">
+</head>
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+<main>
+  <div id="wrapper">
+    <th:block th:replace="~{common/menu :: menu}"></th:block>
+    <div class="content-wrapper">
+      <div class="content custom-scrollbar">
+        <div id="project-dashboard" class="page-layout simple right-sidebar">
+          <div class="page-content-wrapper custom-scrollbar">
+            <th:block th:replace="~{common/top :: top}"></th:block>
+            <!-- CONTENT -->
+            <div class="page-content">
+              <th:block th:replace="~{common/top-menu :: top-menu}"></th:block>
+              <div class="tab-content">
+                <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                  <!-- WIDGET GROUP -->
+                  <div class="widget-group row no-gutters adfit">
+                    <th:block th:replace="~{common/adfit :: adfit}"></th:block>
+                  </div>
+                  <div class="widget-group row no-gutters">
+                    <div class="col-12 p-1">
+                      <div class="widget widget5 card">
+                        <div class="widget-content p-4">
+                          <div class="row">
+                            <div class="col-12 col-lg-6">
+                              <div class="input-group input-group-sm mb-3">
+                                <span class="badge badge-secondary">Byte</span>
+                                <input type="text" id="byte" class="form-control" onkeydown="return validate(event);" onkeyup="convert(0);">
+                              </div>
+
+                              <div class="input-group input-group-sm mb-3">
+                                <span class="badge badge-info">KB</span>
+                                <input type="text" id="kb" class="form-control" onkeydown="return validate(event);" onkeyup="convert(1);">
+                              </div>
+
+                              <div class="input-group input-group-sm mb-3">
+                                <span class="badge badge-warning">MB</span>
+                                <input type="text" id="mb" class="form-control" onkeydown="return validate(event);" onkeyup="convert(2);">
+                              </div>
+
+                              <div class="input-group input-group-sm mb-3">
+                                <span class="badge badge-success">GB</span>
+                                <input type="text" id="gb" class="form-control" onkeydown="return validate(event);" onkeyup="convert(3);">
+                              </div>
+
+                              <div class="input-group input-group-sm mb-3">
+                                <span class="badge badge-primary">TB</span>
+                                <input type="text" id="tb" class="form-control" onkeydown="return validate(event);" onkeyup="convert(4);">
+                              </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                              <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">file size 변환</h4>
+                                <p>&gt; 입력 필드에 숫자를 입력하면 동적으로 변환</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="resultDiv" class="col-12 p-1 hidden"></div>
+                  </div>
+                  <!-- / WIDGET GROUP -->
+                </div>
+              </div>
+            </div>
+            <!-- / CONTENT -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<th:block th:replace="~{common/footer :: footer}"></th:block>
+</body>

@@ -1,10 +1,11 @@
 function loader(mode) {
+  const $loader = $('#loader');
   switch (mode) {
     case 0:
-      $('#loader').addClass('hidden');
+      $loader.addClass('hidden');
       break;
     case 1:
-      $('#loader').removeClass('hidden');
+      $loader.removeClass('hidden');
       break;
   }
 }
