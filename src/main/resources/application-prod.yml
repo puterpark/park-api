@@ -52,3 +52,10 @@ system:
   secret-key: ENC(dtXTzeOcKzIL3p3IZAcozG7qoDYGT5fdFKHeLrRADWXWq5xrrsqW6IxkrgVUKA1v)
   # CORS Allowed Origin
   cors-allowed-origin: puter.us
+  # Html title
+  title: PUTER.US
+  # QR Code 크기 (단위: px)
+  qr-code-size: 250
+  shorten-uri:
+    # shorten-uri 길이
+    length: 6

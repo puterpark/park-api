@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{common/head :: head}"></th:block>
+</head>
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+<main>
+  <div id="wrapper">
+    <th:block th:replace="~{common/menu :: menu}"></th:block>
+    <div class="content-wrapper">
+      <div class="content custom-scrollbar">
+        <div id="project-dashboard" class="page-layout simple right-sidebar">
+          <div class="page-content-wrapper custom-scrollbar">
+<!--            <th:block th:replace="~{common/top :: top}"></th:block>-->
+            <!-- CONTENT -->
+            <div class="page-content">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link btn ${mode eq 'home' ? 'active' : ''}" id="home-tab" href="/">
+                    <i class="icon s-4 icon-home"></i>
+                    home
+                  </a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                  <!-- WIDGET GROUP -->
+                  <div class="widget-group row no-gutters adfit">
+<!--                    <th:block th:replace="~{common/adfit :: adfit}"></th:block>-->
+                  </div>
+                  <div class="widget-group row no-gutters">
+                    <div class="col-6 col-sm-6 col-xl-3 p-1">
+                      <div class="widget widget1 card">
+                        <div class="widget-content pt-2 pb-8 d-flex flex-column align-items-center justify-content-center">
+                          <div class="sub-title h6 text-muted">&nbsp;</div>
+                          <button type="button" class="btn btn-outline-secondary" onclick="goMenu('https://nas.puter.us')">
+                            <i class="icon s-4 btn-outline-secondary icon-package-variant-closed"></i>
+                            sinoli
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-xl-3 p-1">
+                      <div class="widget widget1 card">
+                        <div class="widget-content pt-2 pb-8 d-flex flex-column align-items-center justify-content-center">
+                          <div class="sub-title h6 text-muted">&nbsp;</div>
+                          <button type="button" class="btn btn-outline-secondary" onclick="goMenu('https://jen.puter.us')">
+                            <i class="icon s-4 btn-outline-secondary icon-package-variant"></i>
+                            jenkins
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- / WIDGET GROUP -->
+                </div>
+              </div>
+              <!-- / CONTENT -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!--<th:block th:replace="~{common/footer :: footer}"></th:block>-->
+</body>
+</html>
