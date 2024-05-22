@@ -49,4 +49,10 @@ public class PageController {
 
         return "tools/" + mode;
     }
+
+    // robots.txt 페이지
+    @GetMapping("/robots.txt")
+    public String getRobotsTxt() {
+        return "robots.txt";
+    }
 }
