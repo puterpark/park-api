@@ -23,6 +23,11 @@ spring:
       password: ENC(J/cPIpIJRqun07Yl1LQjqFfFD9Z2ZRXp)
   jooq:
     sql-dialect: postgres
+  data:
+    redis:
+      host: ENC(TVx3WGMGD2jmrMcIUwqkZZyU5/nrsPeT)
+      port: 16379
+      password: ENC(cMFl4l7Fo9O3sVw5ehclANHcf4jlPxbq)
 
 logging:
   level:

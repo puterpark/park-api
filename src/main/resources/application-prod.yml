@@ -23,6 +23,11 @@ spring:
     sql-dialect: postgres
   main:
     banner-mode: log
+  data:
+    redis:
+      host: ENC(9t8NrAGBwnMMmOuK5bIdxA8k5Jr6zyb5)
+      port: 16379
+      password: ENC(uBPr9QnKP4FdI/uI4cop0mErXNv4DGwV)
 
 logging:
   level:

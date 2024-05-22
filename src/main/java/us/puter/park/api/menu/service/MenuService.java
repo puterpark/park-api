@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import us.puter.park.api.menu.dto.MenuCreateReqDto;
 import us.puter.park.api.menu.dto.MenuDto;
+import us.puter.park.api.menu.repository.MenuRedisRepository;
 import us.puter.park.api.menu.repository.MenuRepository;
 import us.puter.park.common.exception.BusinessException;
 import us.puter.park.common.exception.ErrorCode;
@@ -22,6 +24,7 @@ import java.util.List;
 public class MenuService {
 
     private final MenuRepository menuRepository;
+    private final MenuRedisRepository menuRedisRepository;
 
     /**
      * 메뉴 추가
@@ -52,7 +55,14 @@ public class MenuService {
     // 메뉴 목록 > model 설정
     @Transactional(readOnly = true)
     public void setModelFromMenu(Model model, String mode) {
-        List<MenuDto> menuList = menuRepository.findAllByUseYn("Y");
+        // redis에서 먼저 메뉴 목록 조회
+        List<MenuDto> menuList = menuRedisRepository.findMenuList();
+        if (CollectionUtils.isEmpty(menuList)) {
+            // redis에 없으면 DB에서 조회
+            menuList = menuRepository.findAllByUseYn("Y");
+            menuRedisRepository.cacheMenuList(menuList); // 캐시 저장
+        }
+        
         model.addAttribute("menuList", menuList);
         model.addAttribute("mode", mode);
     }
