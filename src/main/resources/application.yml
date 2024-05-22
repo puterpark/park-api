@@ -47,7 +47,7 @@ system:
   # CORS Allowed Origin
   cors-allowed-origin: puter.us
   # Html title
-  title: PUTER.US (테스트)
+  title: PUTER.US (dev)
   # QR Code 크기 (단위: px)
   qr-code-size: 250
   shorten-uri:
