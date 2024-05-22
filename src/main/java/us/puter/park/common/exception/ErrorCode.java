@@ -29,6 +29,7 @@ public enum ErrorCode {
     , NOT_FOUND_MEMBER(400, "F1005", "Not Found Member")
     , INVALID_ENUM_VALUE(400, "F1006", "Invalid Enum Value")
     , NOT_FOUND_REFRESH_TOKEN(400, "F1007", "Not Found Refresh Token")
+    , API_CONNECTION_FAIL(400, "F1008", "API Connection Failed")
     ;
 
     private final int status;
