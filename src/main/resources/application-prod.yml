@@ -47,7 +47,7 @@ logging:
     name: ./logs/park-api.log
   logback:
     rollingpolicy:
-      file-name-pattern: ./logs/park-api_%d{yyyy-MM-dd}.log
+      file-name-pattern: ./logs/park-api_%d{yyyy-MM-dd}_%i.log
       max-history: 30
       max-file-size: 20MB
 
