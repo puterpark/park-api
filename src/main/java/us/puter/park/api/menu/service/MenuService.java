@@ -2,8 +2,10 @@ package us.puter.park.api.menu.service;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import generated.jooq.obj.tables.pojos.Menu;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -12,8 +14,10 @@ import us.puter.park.api.menu.dto.MenuCreateReqDto;
 import us.puter.park.api.menu.dto.MenuDto;
 import us.puter.park.api.menu.repository.MenuRedisRepository;
 import us.puter.park.api.menu.repository.MenuRepository;
+import us.puter.park.common.config.CommonVariables;
 import us.puter.park.common.exception.BusinessException;
 import us.puter.park.common.exception.ErrorCode;
+import us.puter.park.util.IpUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,7 +58,7 @@ public class MenuService {
 
     // 메뉴 목록 > model 설정
     @Transactional(readOnly = true)
-    public void setModelFromMenu(Model model, String mode) {
+    public void setModelFromMenu(HttpServletRequest request, Model model, String mode) {
         // redis에서 먼저 메뉴 목록 조회
         List<MenuDto> menuList = menuRedisRepository.findMenuList();
         if (CollectionUtils.isEmpty(menuList)) {
@@ -65,6 +69,25 @@ public class MenuService {
         
         model.addAttribute("menuList", menuList);
         model.addAttribute("mode", mode);
+        model.addAttribute("title", CommonVariables.title);
+        model.addAttribute("ip", IpUtils.getRemoteIP(request));
+    }
+
+    // 도구 페이지 설정
+    @Transactional(readOnly = true)
+    public String setToolsPage(String mode, Model model, HttpServletRequest request) {
+        // mode 존재 여부
+        if(!menuRepository.existsByMode(mode)) {
+            return "redirect:/error/404";
+        }
+
+        setModelFromMenu(request, model, mode);
+
+        if (StringUtils.equals("qrcode", mode)) {
+            model.addAttribute("qrCodeSize", CommonVariables.qrCodeSize);
+        }
+
+        return "tools/" + mode;
     }
 
 }

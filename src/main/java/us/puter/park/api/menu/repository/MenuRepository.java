@@ -60,4 +60,13 @@ public class MenuRepository extends MenuDao {
                 .orderBy(MENU.SORT_ORDER.asc())
                 .fetchInto(MenuDto.class);
     }
+
+    /**
+     * mode > 존재 여부
+     * @param mode
+     * @return
+     */
+    public boolean existsByMode(String mode) {
+        return dslContext.fetchExists(MENU, MENU.MODE.eq(mode));
+    }
 }
