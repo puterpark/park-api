@@ -80,7 +80,7 @@ public class ShortenUrlService {
         // 짧은 링크 기본 정보 조회
         ShortenUrlDto urlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
         if (urlDto == null || StringUtils.isBlank(urlDto.orgUrl())) {
-            log.info("No mapping found for Shorten Url with shortenUri[{}]", shortenUri);
+            log.info("not found shortenUri[{}]", shortenUri);
             try {
                 res.sendRedirect("/error/404");
                 return;
