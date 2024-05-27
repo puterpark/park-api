@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlStatisticResDto;
 import us.puter.park.api.shortenurl.dto.IpInfoDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateReqDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateResDto;
@@ -124,5 +125,19 @@ public class ShortenUrlService {
         } catch (IOException e) {
             throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * 짧은 링크 통계 조회
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public AdminShortenUrlStatisticResDto getShortenUrlStatistic() {
+        return AdminShortenUrlStatisticResDto.builder()
+                .todayRedirectCount(shortenUrlAccessRepository.countTodayRedirect())
+                .todayMostAccessIp(shortenUrlAccessRepository.findMostAccessIp())
+                .top5day7(shortenUrlRepository.findShortenUrlCountTop5(-7))
+                .top5day30(shortenUrlRepository.findShortenUrlCountTop5(-30))
+                .build();
     }
 }

@@ -66,16 +66,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers(
-                                        "/admin/**"
-                                        , "/api/v1/admin/**"
+                                        "/api/v1/admin/**"
                                 )
                                 .hasAuthority(MemberRole.ADMIN.getValue())
-                                .requestMatchers(
-                                        "/**"
-                                )
-                                .permitAll()
                                 .anyRequest()
-                                .authenticated()
+                                .permitAll()
                 );
 
         return httpSecurity.build();

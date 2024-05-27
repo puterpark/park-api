@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlStatisticResDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateReqDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateResDto;
 import us.puter.park.api.shortenurl.service.ShortenUrlService;
@@ -39,5 +40,11 @@ public class ShortenUrlController {
             , HttpServletResponse res
     ) {
         shortenUrlService.redirectOrgUrl(shortenUri, req, res);
+    }
+
+    // 짧은 링크 통계 (관리자)
+    @GetMapping(value = "/api/v1/admin/shorten-url/statistic")
+    public HttpResponseDto<AdminShortenUrlStatisticResDto> getAdminShortenUrlStatistic() {
+        return HttpApiResponse.getSuccessResponse(shortenUrlService.getShortenUrlStatistic());
     }
 }

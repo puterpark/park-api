@@ -1,16 +1,23 @@
 package us.puter.park.api.shortenurl.repository;
 
 import generated.jooq.obj.tables.ShortenUrl;
+import generated.jooq.obj.tables.ShortenUrlAccess;
 import generated.jooq.obj.tables.daos.ShortenUrlDao;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
+import us.puter.park.api.shortenurl.dto.ShortenUrlCountDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlDto;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class ShortenUrlRepository extends ShortenUrlDao {
 
     private final DSLContext dslContext;
     private static final ShortenUrl SHORTEN_URL = ShortenUrl.SHORTEN_URL;
+    private static final ShortenUrlAccess SHORTEN_URL_ACCESS = ShortenUrlAccess.SHORTEN_URL_ACCESS;
 
     public ShortenUrlRepository(DSLContext dslContext) {
         super(dslContext.configuration());
@@ -54,4 +61,25 @@ public class ShortenUrlRepository extends ShortenUrlDao {
                 .where(SHORTEN_URL.SHORTEN_URI.eq(shortenUri))
                 .fetchOneInto(ShortenUrlDto.class);
     }
+
+    /**
+     * (오늘 - day) 날짜부터 접근 기록 수가 가장 많은 상위 5개 조회
+     * @param day
+     * @return
+     */
+    public List<ShortenUrlCountDto> findShortenUrlCountTop5(int day) {
+        return dslContext
+                .select(
+                        SHORTEN_URL.SHORTEN_URI.as("x"),
+                        DSL.count(SHORTEN_URL_ACCESS.ID).as("y")
+                )
+                .from(SHORTEN_URL)
+                .join(SHORTEN_URL_ACCESS).on(SHORTEN_URL.ID.eq(SHORTEN_URL_ACCESS.SHORTEN_URL_ID))
+                .where(SHORTEN_URL_ACCESS.REG_DATE.greaterOrEqual(LocalDateTime.now().toLocalDate().atStartOfDay().plusDays(day)))
+                .groupBy(SHORTEN_URL.ID)
+                .orderBy(DSL.count(SHORTEN_URL_ACCESS.ID).desc())
+                .limit(5)
+                .fetchInto(ShortenUrlCountDto.class);
+    }
+
 }

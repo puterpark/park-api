@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{common/head :: head}"></th:block>
+  <script type="text/javascript" src="/static/js/mousetrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="/static/js/pages/admin/login.js"></script>
+  <style>
+    .badge {
+      width: 80px;
+      margin-top: 3px;
+      margin-right: 5px;
+      font-size: 100%;
+    }
+  </style>
+</head>
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+<main>
+  <div id="wrapper">
+    <th:block th:replace="~{common/menu :: menu}"></th:block>
+    <div class="content-wrapper">
+      <div class="content custom-scrollbar">
+        <div id="project-dashboard" class="page-layout simple right-sidebar">
+          <div class="page-content-wrapper custom-scrollbar">
+            <th:block th:replace="~{common/top :: top}"></th:block>
+            <!-- CONTENT -->
+            <div class="page-content">
+              <th:block th:replace="~{common/top-menu :: top-menu}"></th:block>
+              <div class="tab-content">
+                <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                  <!-- WIDGET GROUP -->
+                  <div class="widget-group row no-gutters">
+                    <div id="login" class="p-8">
+                      <div class="form-wrapper md-elevation-8 p-8">
+                        <div class="input-group input-group-sm mb-3">
+                          <span class="badge badge-info">Username</span>
+                          <input type="text" class="form-control" id="username" />
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                          <span class="badge badge-info">Password</span>
+                          <input type="password" class="form-control" id="password" onkeyup="enterCheck()"/>
+                        </div>
+                        <button type="button" class="submit-button btn btn-block btn-secondary my-4 mx-auto" onclick="login()">
+                          LOG IN
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- / WIDGET GROUP -->
+                </div>
+              </div>
+            </div>
+            <!-- / CONTENT -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<th:block th:replace="~{common/footer :: footer}"></th:block>
+</body>
