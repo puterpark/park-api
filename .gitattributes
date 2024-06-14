@@ -1,1 +1,2 @@
-src/main/resources/static/vendor/**/* linguist-vendored
+src/main/resources/static/vendor/* linguist-vendored
+src/main/resources/static/icons/fuse-icon-font/* linguist-vendored
