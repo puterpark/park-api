@@ -82,16 +82,75 @@
                     </div>
                   </div>
                   <!-- / WIDGET GROUP -->
+                  <!-- 테이블 -->
+                  <div class="widget-group row no-gutters">
+                    <div class="col-12 p-1">
+                      <div class="widget card">
+                        <div class="widget-content p-4 dataTables_wrapper">
+                          <div class="widget-header px-4 row no-gutters align-items-center justify-content-between">
+                            <div class="dataTables_filter">
+                              <label>Search:<input type="text" id="search-input" value=""></label>
+                            </div>
+                          </div>
+                          <table class="table table-striped" id="data-table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th>shortenUri</th>
+                                <th>orgUrl</th>
+                                <th>regDate</th>
+                                <th>modDate</th>
+                                <th>action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- / 테이블 -->
                 </div>
               </div>
+              <!-- / CONTENT -->
             </div>
-            <!-- / CONTENT -->
           </div>
-          <script type="text/javascript" src="/static/js/pages/admin/shorten-url.js"></script>
         </div>
       </div>
     </div>
   </div>
+  <!-- 수정 모달 -->
+  <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="edit-modal-label">수정</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="shorten-uri" class="form-control-label">shortenUri:</label>
+              <input type="text" class="form-control" id="shorten-uri" />
+            </div>
+            <div class="form-group">
+              <label for="org-url" class="form-control-label">orgUrl:</label>
+              <input type="text" class="form-control" id="org-url" />
+            </div>
+            <input type="hidden" id="shorten-url-id" />
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-secondary" onclick="updateShortenUrl()">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / 수정 모달 -->
+  <script type="text/javascript" src="/static/js/pages/admin/shorten-url.js"></script>
 </main>
 <th:block th:replace="~{common/footer :: footer}"></th:block>
 </body>

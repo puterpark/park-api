@@ -3,14 +3,26 @@ package us.puter.park.api.shortenurl.repository;
 import generated.jooq.obj.tables.ShortenUrl;
 import generated.jooq.obj.tables.ShortenUrlAccess;
 import generated.jooq.obj.tables.daos.ShortenUrlDao;
+import io.micrometer.common.util.StringUtils;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Field;
 import org.jooq.impl.DSL;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlListReqDto;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlResDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCountDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlDto;
+import us.puter.park.api.shortenurl.dto.ShortenUrlResDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class ShortenUrlRepository extends ShortenUrlDao {
@@ -44,6 +56,20 @@ public class ShortenUrlRepository extends ShortenUrlDao {
      */
     public boolean existsByShortenUri(String shortenUri) {
         return dslContext.fetchExists(SHORTEN_URL, SHORTEN_URL.SHORTEN_URI.eq(shortenUri));
+    }
+
+    /**
+     * shortenUri > 존재 여부 (특정 id 제외)
+     * @param shortenUri
+     * @param id
+     * @return
+     */
+    public boolean existsByShortenUriNotInId(String shortenUri, String id) {
+        return dslContext.fetchExists(
+                SHORTEN_URL,
+                SHORTEN_URL.SHORTEN_URI.eq(shortenUri)
+                        .and(SHORTEN_URL.ID.ne(UUID.fromString(id)))
+        );
     }
 
     /**
@@ -82,4 +108,77 @@ public class ShortenUrlRepository extends ShortenUrlDao {
                 .fetchInto(ShortenUrlCountDto.class);
     }
 
+    /**
+     * 단축 링크 목록 조회
+     * @param reqDto
+     * @return
+     */
+    public Page<ShortenUrlResDto> getShortenUrlList(AdminShortenUrlListReqDto reqDto) {
+        Pageable pageable = PageRequest.of(reqDto.start() - 1, reqDto.limit());
+
+        Condition condition = DSL.noCondition();
+
+        if (StringUtils.isNotBlank(reqDto.searchWord())) {
+            String searchWord = "%" + reqDto.searchWord() + "%";
+            condition = condition.and(
+                    SHORTEN_URL.ORG_URL.like(searchWord)
+                            .or(SHORTEN_URL.SHORTEN_URI.like(searchWord))
+            );
+        }
+
+        Integer totalCount = dslContext
+                .selectCount()
+                .from(SHORTEN_URL)
+                .where(condition)
+                .fetchOneInto(Integer.class);
+        totalCount = totalCount == null ? 0 : totalCount;
+
+        List<ShortenUrlResDto> list = dslContext
+                .select(
+                        SHORTEN_URL.ID,
+                        SHORTEN_URL.SHORTEN_URI,
+                        SHORTEN_URL.ORG_URL,
+                        SHORTEN_URL.REG_DATE,
+                        SHORTEN_URL.MOD_DATE
+                )
+                .from(SHORTEN_URL)
+                .where(condition)
+                .orderBy(SHORTEN_URL.ID.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchInto(ShortenUrlResDto.class);
+
+        return new PageImpl<>(list, pageable, totalCount);
+    }
+
+    /**
+     * id > 단축 링크 조회 (관리자)
+     * @param id
+     * @return
+     */
+    public AdminShortenUrlResDto findById(String id) {
+        return dslContext
+                .select(
+                        SHORTEN_URL.SHORTEN_URI,
+                        SHORTEN_URL.ORG_URL
+                )
+                .from(SHORTEN_URL)
+                .where(
+                        SHORTEN_URL.ID.eq(UUID.fromString(id))
+                )
+                .fetchOneInto(AdminShortenUrlResDto.class);
+    }
+
+    /**
+     * 단축 링크 수정
+     * @param id
+     * @param updateFields
+     */
+    public void updateShortenUrl(String id, Map<Field<?>, Object> updateFields) {
+        dslContext
+                .update(SHORTEN_URL)
+                .set(updateFields)
+                .where(SHORTEN_URL.ID.eq(UUID.fromString(id)))
+                .execute();
+    }
 }
