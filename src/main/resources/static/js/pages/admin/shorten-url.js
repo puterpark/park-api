@@ -125,4 +125,214 @@
     $(window).trigger('update:shortenUrlWidget');
   });
 
+  renderTable();
+
+  $('#search-input').on('keyup', function() {
+    $('#data-table').DataTable().search(this.value).draw();
+  });
+
 })();
+
+// 테이블 생성
+function renderTable() {
+  getShortenUrlList(1, 500);
+
+  $('#data-table').DataTable({
+    ordering: false,
+    responsive: true,
+    pageLength: 10,
+    dom: 'rt<"dataTables_footer"ip>',
+  });
+}
+
+// 테이블 제거
+function destroyTable() {
+  $('#data-table').DataTable().destroy();
+  $('#data-table tbody').empty();
+}
+
+// shorten url 목록 조회
+function getShortenUrlList(start, limit) {
+  loader(1);
+
+  $.ajax({
+    url: `/api/v1/admin/shorten-url/list?start=${start}&limit=${limit}`,
+    type: 'GET',
+    contentType: 'application/json',
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('accessToken')
+    },
+    async: false,
+    success: (succ) => {
+      if (succ.code === 'S0000') {
+        const data = succ.data;
+        const list = data.list;
+
+        for (let l in list) {
+          const item = list[l];
+          $('#data-table tbody').append(
+              `<tr>
+                <td>${item.shortenUri}</td>
+                <td>${item.orgUrl}</td>
+                <td>${item.regDate}</td>
+                <td>${item.modDate}</td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit-modal" onclick="getShortenUrl('${item.id}')">수정</button>
+                  <button type="button" class="btn badge-danger btn-sm" onclick="deleteShortenUrl('${item.id}')">삭제</button>
+                </td>
+              </tr>`
+          );
+        }
+      }
+    },
+    error: (err) => {
+      const res = err.responseJSON;
+      if (res) {
+        const err_msg = GLOBAL_ERR_MSG[res.code];
+        if (err_msg) {
+          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
+        }
+      } else {
+        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+      }
+    },
+    complete: () => {
+      loader(0);
+    }
+  });
+}
+
+// 수정을 위한 shorten url 정보 조회
+function getShortenUrl(id) {
+  loader(1);
+
+  $.ajax({
+    url: `/api/v1/admin/shorten-url/${id}`,
+    type: 'GET',
+    contentType: 'application/json',
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('accessToken')
+    },
+    async: false,
+    success: (succ) => {
+      if (succ.code === 'S0000') {
+        const data = succ.data;
+        $('#shorten-uri').val(data.shortenUri);
+        $('#org-url').val(data.orgUrl);
+        $('#shorten-url-id').val(id);
+      }
+    },
+    error: (err) => {
+      const res = err.responseJSON;
+      if (res) {
+        const err_msg = GLOBAL_ERR_MSG[res.code];
+        if (err_msg) {
+          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
+        }
+      } else {
+        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+      }
+    },
+    complete: () => {
+      loader(0);
+    }
+  });
+}
+
+// shorten url 삭제
+function deleteShortenUrl(id) {
+  swal({
+    title: "삭제하시겠습니까?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      loader(1);
+
+      $.ajax({
+        url: `/api/v1/admin/shorten-url/${id}`,
+        type: 'DELETE',
+        contentType: 'application/json',
+        headers: {
+          'Authorization': 'Bearer ' + getCookie('accessToken')
+        },
+        success: (succ) => {
+          if (succ.code === 'S0000') {
+            swal('삭제되었습니다.', '', 'success');
+            destroyTable();
+            renderTable();
+          }
+        },
+        error: (err) => {
+          const res = err.responseJSON;
+          if (res) {
+            const err_msg = GLOBAL_ERR_MSG[res.code];
+            if (err_msg) {
+              swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
+            }
+          } else {
+            swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+          }
+        },
+        complete: () => {
+          loader(0);
+        }
+      });
+    }
+  });
+}
+
+// shorten url 수정
+function updateShortenUrl() {
+  const shortenUri = $('#shorten-uri').val().trim();
+  const orgUrl = $('#org-url').val().trim();
+  const id = $('#shorten-url-id').val();
+
+  if (!shortenUri || shortenUri.length === 0) {
+    swal('단축 URI 입력해 주세요.', '', 'error');
+    return;
+  }
+
+  if (!orgUrl || orgUrl.length === 0) {
+    swal('원본 URL을 입력해 주세요.', '', 'error');
+    return;
+  }
+
+  loader(1);
+
+  $.ajax({
+    url: `/api/v1/admin/shorten-url/${id}`,
+    type: 'PATCH',
+    contentType: 'application/json',
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('accessToken')
+    },
+    data: JSON.stringify({
+      shortenUri: shortenUri,
+      orgUrl: orgUrl
+    }),
+    success: (succ) => {
+      if (succ.code === 'S0000') {
+        swal('수정되었습니다.', '', 'success');
+        $('#edit-modal').modal('hide');
+        destroyTable();
+        renderTable();
+      }
+    },
+    error: (err) => {
+      const res = err.responseJSON;
+      if (res) {
+        const err_msg = GLOBAL_ERR_MSG[res.code];
+        if (err_msg) {
+          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
+        }
+      } else {
+        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+      }
+    },
+    complete: () => {
+      loader(0);
+    }
+  });
+}

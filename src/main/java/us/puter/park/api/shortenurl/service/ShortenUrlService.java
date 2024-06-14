@@ -9,13 +9,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jooq.Field;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlListReqDto;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlListResDto;
+import us.puter.park.api.shortenurl.dto.AdminShortenUrlResDto;
 import us.puter.park.api.shortenurl.dto.AdminShortenUrlStatisticResDto;
 import us.puter.park.api.shortenurl.dto.IpInfoDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateReqDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlCreateResDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlDto;
+import us.puter.park.api.shortenurl.dto.ShortenUrlResDto;
+import us.puter.park.api.shortenurl.dto.ShortenUrlUpdateReqDto;
 import us.puter.park.api.shortenurl.repository.ShortenUrlAccessRepository;
 import us.puter.park.api.shortenurl.repository.ShortenUrlRepository;
 import us.puter.park.common.config.CommonVariables;
@@ -27,6 +34,9 @@ import us.puter.park.util.RestClientUtils;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -78,7 +88,7 @@ public class ShortenUrlService {
      */
     @Transactional
     public void redirectOrgUrl(String shortenUri, HttpServletRequest req, HttpServletResponse res) {
-        // 짧은 링크 기본 정보 조회
+        // 단축 링크 기본 정보 조회
         ShortenUrlDto urlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
         if (urlDto == null || StringUtils.isBlank(urlDto.orgUrl())) {
             log.info("not found shortenUri[{}]", shortenUri);
@@ -97,7 +107,7 @@ public class ShortenUrlService {
         String url = MessageFormat.format("http://ip-api.com/json/{0}?fields=50943", ip);
         IpInfoDto ipDto = restClientUtils.get(url, IpInfoDto.class);
 
-        // 짧은링크접근 기본 정보 설정
+        // 단축링크접근 기본 정보 설정
         ShortenUrlAccess.ShortenUrlAccessBuilder builder = ShortenUrlAccess.builder()
                 .id(UuidCreator.getTimeOrdered())
                 .shortenUrlId(urlDto.id())
@@ -128,7 +138,7 @@ public class ShortenUrlService {
     }
 
     /**
-     * 짧은 링크 통계 조회
+     * 단축 링크 통계 조회
      * @return
      */
     @Transactional(readOnly = true)
@@ -139,5 +149,83 @@ public class ShortenUrlService {
                 .top5day7(shortenUrlRepository.findShortenUrlCountTop5(-7))
                 .top5day30(shortenUrlRepository.findShortenUrlCountTop5(-30))
                 .build();
+    }
+
+    /**
+     * 단축 링크 목록 조회
+     * @param reqDto
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public AdminShortenUrlListResDto getShortenUrlList(AdminShortenUrlListReqDto reqDto) {
+        Page<ShortenUrlResDto> page = shortenUrlRepository.getShortenUrlList(reqDto);
+
+        return new AdminShortenUrlListResDto(
+                page.getContent(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber() + 1
+        );
+    }
+
+    /**
+     * 단축 링크 조회
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public AdminShortenUrlResDto getShortenUrl(String id) {
+        AdminShortenUrlResDto resDto = shortenUrlRepository.findById(id);
+        if (resDto == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL);
+        }
+
+        return resDto;
+    }
+
+    /**
+     * 단축 링크 수정
+     * @param id
+     * @param reqDto
+     */
+    @Transactional
+    public void updateShortenUrl(String id, ShortenUrlUpdateReqDto reqDto) {
+        // 단축 링크 존재여부 검증
+        if (!shortenUrlRepository.existsById(UUID.fromString(id))) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL);
+        }
+
+        String shortenUri = reqDto.shortenUri();
+        String orgUrl = reqDto.orgUrl();
+
+        // 단축 링크 중복 검증
+        if (shortenUrlRepository.existsByShortenUriNotInId(shortenUri, id)) {
+            throw new BusinessException(ErrorCode.ALREADY_EXISTS_DATA, "shortenUri");
+        }
+
+        // 단축 링크 수정
+        final generated.jooq.obj.tables.ShortenUrl SHORTEN_URL = generated.jooq.obj.tables.ShortenUrl.SHORTEN_URL;
+        Map<Field<?>, Object> updateFields = new HashMap<>();
+        updateFields.put(SHORTEN_URL.SHORTEN_URI, shortenUri);
+        updateFields.put(SHORTEN_URL.ORG_URL, orgUrl);
+        updateFields.put(SHORTEN_URL.MOD_DATE, LocalDateTime.now());
+        shortenUrlRepository.updateShortenUrl(id, updateFields);
+        log.info("update shortenUrl: shortenUri[{}], orgUrl[{}]", shortenUri, orgUrl);
+    }
+
+    /**
+     * 단축 링크 삭제
+     * @param id
+     */
+    @Transactional
+    public void deleteShortenUrl(String id) {
+        // 단축 링크 존재여부 검증
+        if (!shortenUrlRepository.existsById(UUID.fromString(id))) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL);
+        }
+
+        // 단축 링크 삭제
+        shortenUrlRepository.deleteById(UUID.fromString(id));
+        log.info("update shortenUrl: id[{}]", id);
     }
 }

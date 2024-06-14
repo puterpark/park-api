@@ -57,7 +57,7 @@ public class PageController {
         return "admin/login";
     }
 
-    // 관리자 짧은 링크 통계 페이지
+    // 관리자 단축 링크 통계 페이지
     @GetMapping("/admin/shorten-url")
     public String getAdminTest(
             Model model
