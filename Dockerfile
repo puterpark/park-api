@@ -4,7 +4,11 @@ WORKDIR /app
 
 RUN mkdir logs
 
-ADD ./build/libs/park-api.jar /app/park-api.jar
+COPY ./build/libs/park-api.jar /app/park-api.jar
+
+ENV TZ=Asia/Seoul
+ENV PARK_PROFILE=""
+ENV PARK_PASSWORD=""
 
 VOLUME /app/logs
 EXPOSE 8080
