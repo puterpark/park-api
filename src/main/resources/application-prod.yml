@@ -14,12 +14,12 @@ spring:
   datasource:
     primary:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(PVCPR6myoqj1Lg+kCF8JbUQj4gR+6e58FsLFm0WMFKowIG0MhF369vcRHu4/DlLA)
+      jdbc-url: ENC(WlNStSNRIGp0BZK6GTNeO/BgRJ+U9JNjMd8zNQczGLDGMFws5m1H3St+//+KOPcbGL94xqMLWww=)
       username: ENC(9FB1E3yXpo9ypQkbF7Tieg==)
       password: ENC(tH8WrTlsZ+ArVlAjJN0vnb6/GecVX8wv)
     replica:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(u3YNcqcRm1luP/ZIXPIe+mLlCS9//G1awyYYcMDCD2ZqZ9YDDPXoNIGwIDhd0OOb)
+      jdbc-url: ENC(4MTtEHzxy3S/fq+hkPOkhUPUTlXWRZ0XaSNajb4B012oPANLtSxxpy0DfGj7LuUSfnmZg7wlJUU=)
       username: ENC(neXRyeLvqqKjy7fU10jPEA==)
       password: ENC(L+bmv3c+k6g5nUf48dQvqCdKb43gkEbT)
   jooq:
@@ -28,7 +28,7 @@ spring:
     banner-mode: log
   data:
     redis:
-      host: ENC(9t8NrAGBwnMMmOuK5bIdxA8k5Jr6zyb5)
+      host: ENC(UwCeqZqkyu8Q76Sg8pB/qdx8kEeoPe4J)
       port: 16379
       password: ENC(uBPr9QnKP4FdI/uI4cop0mErXNv4DGwV)
 
@@ -60,7 +60,7 @@ system:
   # AES256 암호화 키
   secret-key: ENC(dtXTzeOcKzIL3p3IZAcozG7qoDYGT5fdFKHeLrRADWXWq5xrrsqW6IxkrgVUKA1v)
   # CORS Allowed Origin
-  cors-allowed-origin: puter.us
+  cors-allowed-origin: puter.us,tool.puter.us
   # Html title
   title: PUTER.US
   # QR Code 크기 (단위: px)
