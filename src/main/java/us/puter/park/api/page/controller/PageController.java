@@ -42,6 +42,12 @@ public class PageController {
         return "robots.txt";
     }
 
+    // ads.txt 페이지
+    @GetMapping("/ads.txt")
+    public String getAdsTxt() {
+        return "ads.txt";
+    }
+
     // 관리자 로그인 페이지
     @GetMapping("/admin")
     public String getAdmin(
