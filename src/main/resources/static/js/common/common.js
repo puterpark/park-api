@@ -1,7 +1,7 @@
 /* 메뉴 이동 */
-function goMenu(url) {
+const goMenu = (url) => {
   window.location.href = url;
-}
+};
 
 $(function() {
   $(document).on('click', '#icon-gear', function(e) {
@@ -11,7 +11,7 @@ $(function() {
   });
 });
 
-getCookie = (name) => {
+const getCookie = (name) => {
   let cookieArray = document.cookie.split(';');
   for (let i = 0; i < cookieArray.length; i++) {
     let cookiePair = cookieArray[i].split('=');
@@ -20,4 +20,19 @@ getCookie = (name) => {
     }
   }
   return null;
-}
+};
+
+// 에러 처리
+const processError = (error) => {
+  const res = error.responseJSON;
+  if (res) {
+    const err_msg = GLOBAL_ERR_MSG[res.code];
+    if (err_msg) {
+      swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
+    } else {
+      swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+    }
+  } else {
+    swal(GLOBAL_ERR_MSG.E0003, '', 'error');
+  }
+};

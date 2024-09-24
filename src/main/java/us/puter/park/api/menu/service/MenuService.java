@@ -59,14 +59,19 @@ public class MenuService {
     // 메뉴 목록 > model 설정
     @Transactional(readOnly = true)
     public void setModelFromMenu(HttpServletRequest request, Model model, String mode) {
-        // redis에서 먼저 메뉴 목록 조회
-        List<MenuDto> menuList = menuRedisRepository.findMenuList();
-        if (CollectionUtils.isEmpty(menuList)) {
-            // redis에 없으면 DB에서 조회
+        List<MenuDto> menuList;
+        if (StringUtils.equals("prod", CommonVariables.profile)) {
+            // redis에서 먼저 메뉴 목록 조회
+            menuList = menuRedisRepository.findMenuList();
+            if (CollectionUtils.isEmpty(menuList)) {
+                // redis에 없으면 DB에서 조회
+                menuList = menuRepository.findAllByUseYn("Y");
+                menuRedisRepository.cacheMenuList(menuList); // 캐시 저장
+            }
+        } else {
             menuList = menuRepository.findAllByUseYn("Y");
-            menuRedisRepository.cacheMenuList(menuList); // 캐시 저장
         }
-        
+
         model.addAttribute("menuList", menuList);
         model.addAttribute("mode", mode);
         model.addAttribute("title", CommonVariables.title);

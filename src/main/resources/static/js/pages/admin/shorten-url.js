@@ -22,15 +22,7 @@
       }
     },
     error: (err) => {
-      const res = err.responseJSON;
-      if (res) {
-        const err_msg = GLOBAL_ERR_MSG[res.code];
-        if (err_msg) {
-          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
-        }
-      } else {
-        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
-      }
+      processError(err);
     },
     complete: () => {
       loader(0);
@@ -187,15 +179,7 @@ function getShortenUrlList(start, limit) {
       }
     },
     error: (err) => {
-      const res = err.responseJSON;
-      if (res) {
-        const err_msg = GLOBAL_ERR_MSG[res.code];
-        if (err_msg) {
-          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
-        }
-      } else {
-        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
-      }
+      processError(err);
     },
     complete: () => {
       loader(0);
@@ -224,15 +208,7 @@ function getShortenUrl(id) {
       }
     },
     error: (err) => {
-      const res = err.responseJSON;
-      if (res) {
-        const err_msg = GLOBAL_ERR_MSG[res.code];
-        if (err_msg) {
-          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
-        }
-      } else {
-        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
-      }
+      processError(err);
     },
     complete: () => {
       loader(0);
@@ -266,15 +242,7 @@ function deleteShortenUrl(id) {
           }
         },
         error: (err) => {
-          const res = err.responseJSON;
-          if (res) {
-            const err_msg = GLOBAL_ERR_MSG[res.code];
-            if (err_msg) {
-              swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
-            }
-          } else {
-            swal(GLOBAL_ERR_MSG.E0003, '', 'error');
-          }
+          processError(err);
         },
         complete: () => {
           loader(0);
@@ -322,15 +290,7 @@ function updateShortenUrl() {
       }
     },
     error: (err) => {
-      const res = err.responseJSON;
-      if (res) {
-        const err_msg = GLOBAL_ERR_MSG[res.code];
-        if (err_msg) {
-          swal(`${err_msg}`, `${res.data ?? ''}`, 'error');
-        }
-      } else {
-        swal(GLOBAL_ERR_MSG.E0003, '', 'error');
-      }
+      processError(err);
     },
     complete: () => {
       loader(0);

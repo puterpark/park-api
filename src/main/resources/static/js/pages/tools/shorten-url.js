@@ -46,15 +46,7 @@ function shorten() {
       }
     },
     error: (err) => {
-      const res = err.responseJSON;
-      if (res) {
-        const err_msg = GLOBAL_ERR_MSG[res.code];
-        if (err_msg) {
-          alert(`${err_msg}\n${res.data ?? ''}`);
-        }
-      } else {
-        alert(GLOBAL_ERR_MSG.E0003);
-      }
+      processError(err);
     },
     complete: () => {
       loader(0);

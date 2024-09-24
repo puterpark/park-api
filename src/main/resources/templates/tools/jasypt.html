@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{common/head :: head}"></th:block>
+  <script type="text/javascript" src="/static/js/mousetrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="/static/js/pages/tools/jasypt.js"></script>
+</head>
+<body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
+<main>
+  <div id="wrapper">
+    <th:block th:replace="~{common/menu :: menu}"></th:block>
+    <div class="content-wrapper">
+      <div class="content custom-scrollbar">
+        <div id="project-dashboard" class="page-layout simple right-sidebar">
+          <div class="page-content-wrapper custom-scrollbar">
+            <th:block th:replace="~{common/top :: top}"></th:block>
+            <!-- CONTENT -->
+            <div class="page-content">
+              <th:block th:replace="~{common/top-menu :: top-menu}"></th:block>
+              <div class="tab-content">
+                <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                  <!-- WIDGET GROUP -->
+                  <div class="widget-group row no-gutters adfit">
+                    <th:block th:replace="~{common/adfit :: adfit}"></th:block>
+                  </div>
+                  <div class="widget-group row no-gutters">
+                    <div class="col-12 p-1">
+                      <div class="widget widget5 card">
+                        <div class="widget-content p-4">
+                          <div class="row">
+                            <div class="col-12">
+                              <span class="badge badge-secondary">Plain Text</span>
+                              <div class="form-group">
+                                <textarea class="form-control" id="plain-text" rows="3"></textarea>
+                                <label for="plain-text">여기에 입력하세요.</label>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <span class="badge badge-info">Secret Key</span>
+                              <div class="form-group">
+                                <textarea class="form-control" id="secret-key" rows="1"></textarea>
+                                <label for="secret-key">여기에 입력하세요.</label>
+                              </div>
+                            </div>
+                            <div class="col-12 pb-8">
+                              <div style="display: flex;">
+                                <button type="button" class="col-6 btn btn-primary btn-lg" onclick="encrypt()">암호화</button>
+                                <button type="button" class="col-6 btn btn-light btn-lg" onclick="decrypt()">복호화</button>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <span class="badge badge-warning">Return</span>
+                              <div class="form-group">
+                                <textarea class="form-control" id="return-text" rows="3"></textarea>
+                                <label for="return-text">암호화/복호화된 값이 여기에 출력됩니다.</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- / WIDGET GROUP -->
+                </div>
+              </div>
+            </div>
+            <!-- / CONTENT -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<th:block th:replace="~{common/footer :: footer}"></th:block>
+</body>
+</html>

@@ -145,7 +145,7 @@ public class ShortenUrlRepository extends ShortenUrlDao {
                         SHORTEN_URL.MOD_DATE
                 )
                 .from(SHORTEN_URL)
-                .join(SHORTEN_URL_ACCESS).on(SHORTEN_URL.ID.eq(SHORTEN_URL_ACCESS.SHORTEN_URL_ID))
+                .leftJoin(SHORTEN_URL_ACCESS).on(SHORTEN_URL.ID.eq(SHORTEN_URL_ACCESS.SHORTEN_URL_ID))
                 .where(condition)
                 .groupBy(SHORTEN_URL.ID, SHORTEN_URL.SHORTEN_URI, SHORTEN_URL.ORG_URL, SHORTEN_URL.REG_DATE, SHORTEN_URL.MOD_DATE)
                 .orderBy(SHORTEN_URL.ID.desc())
