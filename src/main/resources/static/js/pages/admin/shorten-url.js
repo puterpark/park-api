@@ -174,8 +174,9 @@ function getShortenUrlList(start, limit) {
               `<tr>
                 <td>${item.shortenUri}</td>
                 <td>${item.orgUrl}</td>
+                <td>${item.lastAccessDate ?? '-'}</td>
                 <td>${item.regDate}</td>
-                <td>${item.modDate}</td>
+                <td>${item.modDate ?? '-'}</td>
                 <td>
                   <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit-modal" onclick="getShortenUrl('${item.id}')">수정</button>
                   <button type="button" class="btn badge-danger btn-sm" onclick="deleteShortenUrl('${item.id}')">삭제</button>

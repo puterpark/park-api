@@ -22,6 +22,7 @@ import us.puter.park.api.shortenurl.dto.ShortenUrlResDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -126,23 +127,27 @@ public class ShortenUrlRepository extends ShortenUrlDao {
             );
         }
 
-        Integer totalCount = dslContext
-                .selectCount()
-                .from(SHORTEN_URL)
-                .where(condition)
-                .fetchOneInto(Integer.class);
-        totalCount = totalCount == null ? 0 : totalCount;
+        Integer totalCount = Optional.ofNullable(
+                dslContext
+                        .selectCount()
+                        .from(SHORTEN_URL)
+                        .where(condition)
+                        .fetchOneInto(Integer.class)
+        ).orElse(0);
 
         List<ShortenUrlResDto> list = dslContext
                 .select(
                         SHORTEN_URL.ID,
                         SHORTEN_URL.SHORTEN_URI,
                         SHORTEN_URL.ORG_URL,
+                        DSL.max(SHORTEN_URL_ACCESS.REG_DATE).as("lastAccessDate"),
                         SHORTEN_URL.REG_DATE,
                         SHORTEN_URL.MOD_DATE
                 )
                 .from(SHORTEN_URL)
+                .join(SHORTEN_URL_ACCESS).on(SHORTEN_URL.ID.eq(SHORTEN_URL_ACCESS.SHORTEN_URL_ID))
                 .where(condition)
+                .groupBy(SHORTEN_URL.ID, SHORTEN_URL.SHORTEN_URI, SHORTEN_URL.ORG_URL, SHORTEN_URL.REG_DATE, SHORTEN_URL.MOD_DATE)
                 .orderBy(SHORTEN_URL.ID.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

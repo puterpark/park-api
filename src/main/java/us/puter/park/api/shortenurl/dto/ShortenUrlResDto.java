@@ -12,6 +12,9 @@ public record ShortenUrlResDto(
         String shortenUri,
         // 원본 URL
         String orgUrl,
+        // 마지막 접근 일시
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        LocalDateTime lastAccessDate,
         // 생성일시
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime regDate,
