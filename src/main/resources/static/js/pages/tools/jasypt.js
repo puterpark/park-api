@@ -40,6 +40,11 @@ const encrypt = () => {
     return;
   }
 
+  if (containsHangeul(secretKey)) {
+    swal('비밀 키에 한글을 사용할 수 없습니다.', '', 'error');
+    return;
+  }
+
   loader(1);
 
   $.ajax({
@@ -76,6 +81,11 @@ const decrypt = () => {
     return;
   }
 
+  if (containsHangeul(secretKey)) {
+    swal('비밀 키에 한글을 사용할 수 없습니다.', '', 'error');
+    return;
+  }
+
   loader(1);
 
   $.ajax({
@@ -100,4 +110,9 @@ const decrypt = () => {
       loader(0);
     }
   });
+};
+
+// 한글 포함 여부
+const containsHangeul = (str) => {
+  return /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(str);
 };
