@@ -31,6 +31,7 @@ public enum ErrorCode {
     , NOT_FOUND_REFRESH_TOKEN(400, "F1007", "Not Found Refresh Token")
     , API_CONNECTION_FAIL(400, "F1008", "API Connection Failed")
     , NOT_FOUND_SHORTEN_URL(400, "F1009", "Not Found Shorten Url")
+    , INVALID_SECRET_KEY(400, "F1010", "Invalid Secret Key")
     ;
 
     private final int status;
