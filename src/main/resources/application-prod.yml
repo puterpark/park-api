@@ -14,23 +14,23 @@ spring:
   datasource:
     primary:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(WlNStSNRIGp0BZK6GTNeO/BgRJ+U9JNjMd8zNQczGLDGMFws5m1H3St+//+KOPcbGL94xqMLWww=)
-      username: ENC(9FB1E3yXpo9ypQkbF7Tieg==)
-      password: ENC(tH8WrTlsZ+ArVlAjJN0vnb6/GecVX8wv)
+      jdbc-url: ENC(mKGjMVADc8F/JMB+t/XOZhLlDMKQAh0vnVTQiWbN1CbL7uQ/GOWTmMWXRqpCpPyiFBrskmmJH6c=)
+      username: ENC(s6fCUvCuR7VN5MLEZ5NOow==)
+      password: ENC(5c2oXdA/jQK6yX6RhoTl/a6Uz9oIVBsT)
     replica:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(4MTtEHzxy3S/fq+hkPOkhUPUTlXWRZ0XaSNajb4B012oPANLtSxxpy0DfGj7LuUSfnmZg7wlJUU=)
-      username: ENC(neXRyeLvqqKjy7fU10jPEA==)
-      password: ENC(L+bmv3c+k6g5nUf48dQvqCdKb43gkEbT)
+      jdbc-url: ENC(2MjmWcKsnBuhJbCVC4+dowpMJP5sW62k0QSuh2YCVINob32ZyI4CjcjfwRMSbQZtdmw0i+k0zlE=)
+      username: ENC(u/5zgrSlIw93cEWvmTn8lg==)
+      password: ENC(2e07FrnlgXtx+deFeaII/1ycL04i54p9)
   jooq:
     sql-dialect: postgres
   main:
     banner-mode: log
   data:
     redis:
-      host: ENC(UwCeqZqkyu8Q76Sg8pB/qdx8kEeoPe4J)
+      host: ENC(uShSH2lZ4WOXB6zxyHykcKvk88T6konR)
       port: 16379
-      password: ENC(uBPr9QnKP4FdI/uI4cop0mErXNv4DGwV)
+      password: ENC(YG7mEaWRQKOenzkeUbWqxCKaQFtpkIF3)
 
 logging:
   level:
@@ -52,13 +52,13 @@ logging:
       max-file-size: 20MB
 
 jwt:
-  secret: ENC(1pYwBD9HcP7oY6szddIvI0t2/fbdzILBFQ1h66NGwyT4mw5fLilnNrI8sQMWgy+9dZAaYgfhnNJhBxxXq1kOVOXw/+t64mDjtdY4ddDiK979wjLFCxf7vtXWk0UV0mVjJF99SK0D7dWToiVQWsqngpqY3vnaZMf5jrABWlQW0ujdwP3PqfmTXciiRssF2h8V)
+  secret: ENC(Kqgk+sIHPid/OgtxQVlvKxC3ITSckOc0kgCu3O1pvxS7qCGQvKglynX8wTI4OlrXdmGgCs4HKk0hyZ6xfCCuRea0MpKr1QS22aOiFx/708ngh/UoYmDqgsGfSbeM9j+Y9kVV7QtabIFFboIoVt+iFuZc5BeAjw97oSfCjtmfw84ZkVBYXfR8fcgQ6e/C2aE1)
   access-token-valid-second: 7200
   refresh-token-valid-second: 86400
 
 system:
   # AES256 암호화 키
-  secret-key: ENC(dtXTzeOcKzIL3p3IZAcozG7qoDYGT5fdFKHeLrRADWXWq5xrrsqW6IxkrgVUKA1v)
+  secret-key: ENC(+AELjXx6FNZWgtHBrxm9KHa2nvungAasXt+3bj1+AkGMzPis4xuG9/ty77c5FlZj)
   # CORS Allowed Origin
   cors-allowed-origin: puter.us,tool.puter.us
   # Html title
