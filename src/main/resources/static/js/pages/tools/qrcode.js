@@ -1,18 +1,18 @@
-$(function () {
+$(document).ready(() => {
   const $original = $('#textarea');
-  $original.focusin(function () {
+  $original.focusin(() => {
     $('label[for="textarea"]').addClass('hidden');
   });
 
-  $original.focusout(function () {
+  $original.focusout(() => {
     if ($original.val().trim().length === 0) {
       $('label[for="textarea"]').removeClass('hidden');
     }
   });
 });
 
-const $qrCode = document.getElementById('qrCode')
-    , qrCodeSize = $('#qrCodeSize').val();
+const $qrCode = document.getElementById('qrCode');
+const qrCodeSize = $('#qrCodeSize').val();
 
 $qrCode.setAttribute('class', 'hidden');
 
@@ -21,7 +21,7 @@ const qrCode = new QRCode($qrCode, {
   height: qrCodeSize
 });
 
-function makeCode() {
+const makeCode = () => {
   const val = $('#textarea').val().trim();
 
   $('#result-badge').removeClass('hidden');
@@ -31,4 +31,4 @@ function makeCode() {
     qrCode.makeCode(val);
     $qrCode.setAttribute('class', '');
   }
-}
+};

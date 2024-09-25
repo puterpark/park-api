@@ -1,19 +1,20 @@
-$(function() {
-  $('input[type="date"]').on('change', function() {
-    const $startDate = $('#startDate')
-        , $baseDate = $('#baseDate')
-        , $endDate = $('#endDate')
-        , startDate = $startDate.val()
-        , baseDate = $baseDate.val()
-        , endDate = $endDate.val();
+$(document).ready(() => {
+  $('input[type="date"]').on('change', () => {
+    const $startDate = $('#startDate');
+    const $baseDate = $('#baseDate');
+    const $endDate = $('#endDate');
+    const startDate = $startDate.val();
+    const baseDate = $baseDate.val();
+    const endDate = $endDate.val();
+    const $resultDiv = $('#resultDiv');
 
-    $('#resultDiv').empty();
+    $resultDiv.empty();
 
     if (validate(startDate, baseDate, endDate)) {
       $('#result-badge').removeClass('hidden');
 
       const rate = calculateRate(startDate, baseDate, endDate);
-      $('#resultDiv').append(renderProgress(rate));
+      $resultDiv.append(renderProgress(rate));
     }
   });
 });
@@ -25,7 +26,7 @@ $(function() {
  * @param {string} endDate
  * @returns {boolean} 유효성 여부
  */
-function validate(startDate, baseDate, endDate) {
+const validate = (startDate, baseDate, endDate) => {
   let isValid = false;
 
   if (startDate === '' || startDate.length < 1) {
@@ -50,7 +51,7 @@ function validate(startDate, baseDate, endDate) {
 
   isValid = true;
   return isValid;
-}
+};
 
 /**
  * 시작일/기준일/종료일을 이용한 진척률 계산
@@ -59,19 +60,19 @@ function validate(startDate, baseDate, endDate) {
  * @param {string} endDate
  * @returns {number} 진척률
  */
-function calculateRate(startDate, baseDate, endDate) {
+const calculateRate = (startDate, baseDate, endDate) => {
   const totalCount = ((new Date(endDate) - new Date(startDate)) / 86400000) + 1;
   const progressCount = ((new Date(baseDate) - new Date(startDate)) / 86400000) + 1;
   return Math.floor((progressCount / totalCount) * 100);
-}
+};
 
 /**
  * proress bar 설정
  * @param {number} rate
  * @returns {string} progress 요소
  */
-function renderProgress(rate) {
+const renderProgress = (rate) => {
   return `<div class="progress">
   <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" role="progressbar"
     aria-valuemin="0" aria-valuemax="100" aria-valuenow="${rate}" style="width: ${rate}%">${rate}%</div>`;
-}
+};

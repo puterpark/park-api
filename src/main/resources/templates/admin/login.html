@@ -32,17 +32,19 @@
                   <div class="widget-group row no-gutters">
                     <div id="login" class="p-8">
                       <div class="form-wrapper md-elevation-8 p-8">
-                        <div class="input-group input-group-sm mb-3">
-                          <span class="badge badge-info">Username</span>
-                          <input type="text" class="form-control" id="username" />
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                          <span class="badge badge-info">Password</span>
-                          <input type="password" class="form-control" id="password" onkeyup="enterCheck()"/>
-                        </div>
-                        <button type="button" class="submit-button btn btn-block btn-secondary my-4 mx-auto" onclick="login()">
-                          LOG IN
-                        </button>
+                        <form>
+                          <div class="form-group mb-3">
+                            <input type="text" class="form-control" id="username"/>
+                            <label for="username">username</label>
+                          </div>
+                          <div class="form-group mb-3">
+                            <input type="password" class="form-control" id="password" onkeyup="enterCheck()"/>
+                            <label for="password">password</label>
+                          </div>
+                          <button type="button" class="submit-button btn btn-block btn-secondary my-4 mx-auto" onclick="login()">
+                            LOG IN
+                          </button>
+                        </form>
                       </div>
                     </div>
                   </div>

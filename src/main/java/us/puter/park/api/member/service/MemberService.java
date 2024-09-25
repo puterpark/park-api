@@ -120,7 +120,7 @@ public class MemberService {
         } catch (BadCredentialsException e) {
             log.error("wrong id/pw: id[{}]", authenticationToken.getName());
         } catch (Exception e) {
-            log.error("error[set authentication]", e);
+            log.error("error[set authentication] - {}", e.getMessage());
         }
         return authentication;
     }

@@ -1,17 +1,17 @@
-$(function() {
-	var $original = $('#original');
-	$original.focusin(function() {
+$(document).ready(() => {
+	const $original = $('#original');
+	$original.focusin(() => {
 		$('label[for="original"]').addClass('hidden');
 	});
 
-	$original.focusout(function() {
+	$original.focusout(() => {
 		if ($original.val().trim().length === 0) {
 			$('label[for="original"]').removeClass('hidden');
 		}
 	});
 });
 
-var endecode = {
+const endecode = {
 	// private property
 	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
@@ -172,8 +172,8 @@ var endecode = {
 	}
 }
 
-function convert() {
-	var val = $('#original').val().trim();
+const convert = () => {
+	const val = $('#original').val().trim();
 	
 	$('#base64Encode').val(endecode.base64Encode(val));
 	$('#base64Decode').val(endecode.base64Decode(val));
@@ -181,14 +181,14 @@ function convert() {
 	$('#urlDecode').val(endecode.urlDecode(val));
 	$('#unicodeEncode').val(endecode.unicodeEncode(val));
 	$('#unicodeDecode').val(endecode.unicodeDecode(val));
-}
+};
 
-function copy(t) {
-	var val = $('#' + t.id).val();
-	if (val.trim().length == 0) {
+const copy = (t) => {
+	const val = $('#' + t.id).val();
+	if (val.trim().length === 0) {
 		return;
 	}
 	t.select();
 	document.execCommand('copy');
 	swal('복사되었습니다.', '', 'success');
-}
+};

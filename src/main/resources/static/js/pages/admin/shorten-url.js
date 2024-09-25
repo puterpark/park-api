@@ -1,4 +1,4 @@
-(function() {
+$(document).ready(() => {
   let top5day7 = {};
   let top5day30 = {};
 
@@ -123,10 +123,10 @@
     $('#data-table').DataTable().search(this.value).draw();
   });
 
-})();
+});
 
 // 테이블 생성
-function renderTable() {
+const renderTable = () => {
   getShortenUrlList(1, 500);
 
   $('#data-table').DataTable({
@@ -135,16 +135,16 @@ function renderTable() {
     pageLength: 10,
     dom: 'rt<"dataTables_footer"ip>',
   });
-}
+};
 
 // 테이블 제거
-function destroyTable() {
+const destroyTable = () => {
   $('#data-table').DataTable().destroy();
   $('#data-table tbody').empty();
-}
+};
 
 // shorten url 목록 조회
-function getShortenUrlList(start, limit) {
+const getShortenUrlList = (start, limit) => {
   loader(1);
 
   $.ajax({
@@ -185,10 +185,10 @@ function getShortenUrlList(start, limit) {
       loader(0);
     }
   });
-}
+};
 
 // 수정을 위한 shorten url 정보 조회
-function getShortenUrl(id) {
+const getShortenUrl = (id) => {
   loader(1);
 
   $.ajax({
@@ -214,10 +214,10 @@ function getShortenUrl(id) {
       loader(0);
     }
   });
-}
+};
 
 // shorten url 삭제
-function deleteShortenUrl(id) {
+const deleteShortenUrl = (id) => {
   swal({
     title: "삭제하시겠습니까?",
     icon: "warning",
@@ -250,10 +250,10 @@ function deleteShortenUrl(id) {
       });
     }
   });
-}
+};
 
 // shorten url 수정
-function updateShortenUrl() {
+const updateShortenUrl = () => {
   const shortenUri = $('#shorten-uri').val().trim();
   const orgUrl = $('#org-url').val().trim();
   const id = $('#shorten-url-id').val();
@@ -296,4 +296,4 @@ function updateShortenUrl() {
       loader(0);
     }
   });
-}
+};

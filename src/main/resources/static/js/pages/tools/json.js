@@ -5,20 +5,20 @@ Mousetrap.bind('ctrl+shift+enter', function() {
   convert(1);
 });
 
-$(function() {
+$(document).ready(() => {
   const $ta = $('#textarea');
-  $ta.focusin(function() {
+  $ta.focusin(() => {
     $('label[for="textarea"]').addClass('hidden');
   });
 
-  $ta.focusout(function() {
+  $ta.focusout(() => {
     if ($ta.val().trim().length === 0) {
       $('label[for="textarea"]').removeClass('hidden');
     }
   });
 });
 
-function convert(mode) {
+const convert = (mode) => {
   let val = $('#textarea').val().trim();
 
   if (!val || val === '' || val.length === 0) {
@@ -33,20 +33,22 @@ function convert(mode) {
       val = JSON.stringify(JSON.parse(val));
     }
   } catch (e) {
-    swal('다시 입력해주세요.', e.message, 'error');
+    swal('다시 입력해 주세요.', e.message, 'error');
     return;
   }
 
-  $('#resultDiv').empty().append("<div class='widget widget5 card'><div class='widget-content p-4'><div class='row'><div class='col-12 col-lg-6'><div id='result' class='form-group' style='display: flex;'></div></div><div class='col-12 col-lg-6' id='copy'></div></div></div></div>");
+  const $resultDiv = $('#resultDiv');
+
+  $resultDiv.empty().append("<div class='widget widget5 card'><div class='widget-content p-4'><div class='row'><div class='col-12 col-lg-6'><div id='result' class='form-group' style='display: flex;'></div></div><div class='col-12 col-lg-6' id='copy'></div></div></div></div>");
   $('#result').empty().append("<textarea class='form-control' id='output' rows='15' onclick='copy()'>" + val + "</textarea>");
   $('#copy').empty().append("<div class='alert alert-success' role='alert'><h5 class='alert-heading'>결과를 클릭하면 복사됩니다.</h5></div>");
-  $('#resultDiv').removeClass('hidden');
+  $resultDiv.removeClass('hidden');
 
   document.getElementById('resultDiv').scrollIntoView();
-}
+};
 
-function copy() {
+const copy = () => {
   $('#output').select();
   document.execCommand('copy');
   swal('복사되었습니다.', '', 'success');
-}
+};

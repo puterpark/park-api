@@ -10,7 +10,7 @@ public record JasyptDecReqDto(
         String encText,
         // 비밀키
         @NotBlank
-        @Pattern(regexp = CommonPatterns.NOT_HANGEUL)
+        @Pattern(regexp = CommonPatterns.SECRET_KEY)
         String secretKey
 ) {
 }

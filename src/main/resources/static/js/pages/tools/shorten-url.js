@@ -1,14 +1,14 @@
-Mousetrap.bind('ctrl+enter', function() {
+Mousetrap.bind('ctrl+enter', () => {
   shorten();
 });
 
-function enterCheck() {
+const enterCheck = () => {
   if (event.keyCode === 13) {
     shorten();
   }
-}
+};
 
-function shorten() {
+const shorten = () => {
   const originalUrl = $('#original-url').val().trim();
 
   $('#resultDiv').addClass('hidden');
@@ -18,7 +18,7 @@ function shorten() {
     return;
   }
 
-  var regExr = /^(https?:\/\/)([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)/;
+  const regExr = /^(https?:\/\/)([\w\d-_]+)\.([\w\d-_\.]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)/;
   if (!regExr.test(originalUrl)) {
     swal('URL 형식이 아닙니다.', '', 'error');
     return;
@@ -41,8 +41,9 @@ function shorten() {
           shortenUrl += `:${window.location.port}`;
         }
         shortenUrl += `/${data.shortenUri}`;
-        $('#resultDiv').empty().append(`<div class='widget widget5 card' onclick='copy()'><div class='widget-content p-4'><div class='row'><div class='col-12' style='display: flex;'><div class='col' style='padding-top: 10px;'><h4 id='shorten-url'>${shortenUrl}</h4></div></div></div></div></div>`);
-        $('#resultDiv').removeClass('hidden');
+        const $resultDiv = $('#resultDiv');
+        $resultDiv.empty().append(`<div class='widget widget5 card' onclick='copy()'><div class='widget-content p-4'><div class='row'><div class='col-12' style='display: flex;'><div class='col' style='padding-top: 10px;'><h4 id='shorten-url'>${shortenUrl}</h4></div></div></div></div></div>`);
+        $resultDiv.removeClass('hidden');
       }
     },
     error: (err) => {
@@ -52,11 +53,12 @@ function shorten() {
       loader(0);
     }
   });
-}
+};
 
-function copy() {
-  $('#tmpForCopy').val($('#shorten-url').text());
-  $('#tmpForCopy').select();
+const copy = () => {
+  const $tmpForCopy = $('#tmpForCopy');
+  $tmpForCopy.val($('#shorten-url').text());
+  $tmpForCopy.select();
   document.execCommand('copy');
   swal('복사되었습니다.', '', 'success');
-}
+};

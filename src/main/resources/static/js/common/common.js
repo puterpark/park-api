@@ -3,7 +3,7 @@ const goMenu = (url) => {
   window.location.href = url;
 };
 
-$(function() {
+$(document).ready(() => {
   $(document).on('click', '#icon-gear', function(e) {
     e.preventDefault();
     e.stopPropagation();

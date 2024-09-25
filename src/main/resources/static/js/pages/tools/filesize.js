@@ -1,10 +1,10 @@
-function convert(mode) {
+const convert = (mode) => {
   let orgSize;
-  const $byte = $('#byte')
-      , $kb = $('#kb')
-      , $mb = $('#mb')
-      , $gb = $('#gb')
-      , $tb = $('#tb');
+  const $byte = $('#byte');
+  const $kb = $('#kb');
+  const $mb = $('#mb');
+  const $gb = $('#gb');
+  const $tb = $('#tb');
 
   switch (mode) {
     case 0:
@@ -43,17 +43,17 @@ function convert(mode) {
       $gb.val(orgSize * square(1));
       break;
   }
-}
+};
 
-function square(n) {
+const square = (n) => {
   const size = 1024;
   return Math.pow(size, n);
-}
+};
 
-function validate(e) {
+const validate = (e) => {
   const charCode = (e.which) ? e.which : e.keyCode;
 
   return (charCode > 47 && charCode < 58) || (charCode > 95 && charCode < 106)
       || charCode === 8
       || charCode === 65 || charCode === 67 || charCode === 86 || charCode === 88;
-}
+};
