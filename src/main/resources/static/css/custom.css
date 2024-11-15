@@ -30,12 +30,15 @@
   margin: 20px;
 }
 
-.adfit {
-  padding-bottom: 3px;
-}
-
 .adsense {
   padding-bottom: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.adfit {
+  padding-top: 3px;
 }
 
 #icon-gear {
