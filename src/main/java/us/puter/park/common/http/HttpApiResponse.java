@@ -18,10 +18,6 @@ public class HttpApiResponse {
         return new CommonHttpResultDto(message, 200, "S0000");
     }
 
-    public static CommonHttpResultDto getFailureResponse(ErrorCode errorCode, String message) {
-        return new CommonHttpResultDto(message, errorCode.getStatus(), errorCode.getCode());
-    }
-
     public static <T> HttpResponseDto<T> getFailureResponse(ErrorCode errorCode, T data) {
         return new HttpResponseDto<T>(errorCode.getMessage(), errorCode.getStatus(), errorCode.getCode(), data);
     }

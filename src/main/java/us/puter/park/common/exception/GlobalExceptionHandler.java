@@ -149,10 +149,10 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<HttpResponseDto<?>> handleHttpMessageNotReadableException(final BusinessException e) {
-        ErrorCode errorCode = e.getErrorCode();
-        log.error("{} HttpMessageNotReadableException Occurred [{}], {}", getStackStrace(e), errorCode.getMessage(), e.getData());
-        HttpResponseDto<?> responseDto = HttpApiResponse.getFailureResponse(errorCode, e.getData());
+    protected ResponseEntity<HttpResponseDto<?>> handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
+        ErrorCode errorCode = ErrorCode.VALIDATION_FAIL;
+        log.error("{} HttpMessageNotReadableException Occurred [{}]", getStackStrace(e), e.getMessage());
+        HttpResponseDto<?> responseDto = HttpApiResponse.getFailureResponse(errorCode, e.getMessage());
         return new ResponseEntity<>(responseDto, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
