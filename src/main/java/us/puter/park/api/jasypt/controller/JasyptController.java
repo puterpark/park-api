@@ -31,7 +31,7 @@ public class JasyptController {
 
     // jasypt 복호화
     @PostMapping("/api/v1/jasypt/decrypt")
-    public HttpResponseDto<JasyptDecResDto> postJasyptEncrypt(
+    public HttpResponseDto<JasyptDecResDto> postJasyptDecrypt(
             @RequestBody @Valid JasyptDecReqDto reqDto
     ) {
         return HttpApiResponse.getSuccessResponse(jasyptService.decrypt(reqDto));
