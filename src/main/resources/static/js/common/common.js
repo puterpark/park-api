@@ -36,3 +36,16 @@ const processError = (error) => {
     swal(GLOBAL_ERR_MSG.E0003, '', 'error');
   }
 };
+
+// focus에 따라 label 노출 여부 설정
+const toggleLabelOnFocus = (id) => {
+  const $input = $(`#${id}`);
+  $input.focusin(() => {
+    $(`label[for=${id}]`).addClass('hidden');
+  });
+  $input.focusout(() => {
+    if ($input.val().trim().length === 0) {
+      $(`label[for=${id}]`).removeClass('hidden');
+    }
+  });
+};

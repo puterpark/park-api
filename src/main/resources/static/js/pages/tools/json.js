@@ -6,16 +6,7 @@ Mousetrap.bind('ctrl+shift+enter', function() {
 });
 
 $(document).ready(() => {
-  const $ta = $('#textarea');
-  $ta.focusin(() => {
-    $('label[for="textarea"]').addClass('hidden');
-  });
-
-  $ta.focusout(() => {
-    if ($ta.val().trim().length === 0) {
-      $('label[for="textarea"]').removeClass('hidden');
-    }
-  });
+  toggleLabelOnFocus('textarea');
 });
 
 const convert = (mode) => {

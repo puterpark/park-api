@@ -1,14 +1,5 @@
 $(document).ready(() => {
-  const $original = $('#textarea');
-  $original.focusin(() => {
-    $('label[for="textarea"]').addClass('hidden');
-  });
-
-  $original.focusout(() => {
-    if ($original.val().trim().length === 0) {
-      $('label[for="textarea"]').removeClass('hidden');
-    }
-  });
+  toggleLabelOnFocus('textarea');
 });
 
 const $qrCode = document.getElementById('qrCode');

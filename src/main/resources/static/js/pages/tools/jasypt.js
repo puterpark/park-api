@@ -1,33 +1,7 @@
 $(document).ready(() => {
-  const $plainText = $('#plain-text');
-  $plainText.focusin(() => {
-    $('label[for="plain-text"]').addClass('hidden');
-  });
-  $plainText.focusout(() => {
-    if ($plainText.val().trim().length === 0) {
-      $('label[for="plain-text"]').removeClass('hidden');
-    }
-  });
-
-  const $secretKey = $('#secret-key');
-  $secretKey.focusin(() => {
-    $('label[for="secret-key"]').addClass('hidden');
-  });
-  $secretKey.focusout(() => {
-    if ($secretKey.val().trim().length === 0) {
-      $('label[for="secret-key"]').removeClass('hidden');
-    }
-  });
-
-  const $returnText = $('#return-text');
-  $returnText.focusin(() => {
-    $('label[for="return-text"]').addClass('hidden');
-  });
-  $returnText.focusout(() => {
-    if ($returnText.val().trim().length === 0) {
-      $('label[for="return-text"]').removeClass('hidden');
-    }
-  });
+  toggleLabelOnFocus('plain-text');
+  toggleLabelOnFocus('secret-key');
+  toggleLabelOnFocus('return-text');
 });
 
 // 암호화
