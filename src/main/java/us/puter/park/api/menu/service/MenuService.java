@@ -82,7 +82,7 @@ public class MenuService {
     @Transactional(readOnly = true)
     public String setToolsPage(String mode, Model model, HttpServletRequest request) {
         // mode 존재 여부
-        if(!menuRepository.existsByMode(mode)) {
+        if(StringUtils.equals("prod", CommonVariables.profile) && !menuRepository.existsByMode(mode)) {
             return "redirect:/error/404";
         }
 
