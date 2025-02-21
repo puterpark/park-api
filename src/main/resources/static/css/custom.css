@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 .loader {
   position: fixed;
   left: 0px;
