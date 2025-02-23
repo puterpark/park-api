@@ -83,7 +83,7 @@ public class MenuService {
     public String setToolsPage(String mode, Model model, HttpServletRequest request) {
         // mode 존재 여부
         Menu menu = menuRepository.findByMode(mode);
-        if(StringUtils.equals("prod", CommonVariables.profile) && menu != null) {
+        if (StringUtils.equals("prod", CommonVariables.profile) && menu == null) {
             return "redirect:/error/404";
         }
 
