@@ -69,4 +69,17 @@ public class MenuRepository extends MenuDao {
     public boolean existsByMode(String mode) {
         return dslContext.fetchExists(MENU, MENU.MODE.eq(mode));
     }
+
+    /**
+     * mode > 정보 조회
+     * @param mode
+     * @return
+     */
+    public generated.jooq.obj.tables.pojos.Menu findByMode(String mode) {
+        return dslContext
+                .selectFrom(MENU)
+                .where(MENU.MODE.eq(mode))
+                .fetchOneInto(generated.jooq.obj.tables.pojos.Menu.class);
+    }
+
 }

@@ -82,11 +82,14 @@ public class MenuService {
     @Transactional(readOnly = true)
     public String setToolsPage(String mode, Model model, HttpServletRequest request) {
         // mode 존재 여부
-        if(StringUtils.equals("prod", CommonVariables.profile) && !menuRepository.existsByMode(mode)) {
+        Menu menu = menuRepository.findByMode(mode);
+        if(StringUtils.equals("prod", CommonVariables.profile) && menu != null) {
             return "redirect:/error/404";
         }
 
         setModelFromMenu(request, model, mode);
+
+        model.addAttribute("menu", menu);
 
         if (StringUtils.equals("qrcode", mode)) {
             model.addAttribute("qrCodeSize", CommonVariables.qrCodeSize);
