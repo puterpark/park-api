@@ -5,14 +5,6 @@
   <script type="text/javascript" src="/static/js/mousetrap.min.js"></script>
   <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
   <script type="text/javascript" src="/static/js/pages/admin/login.js"></script>
-  <style>
-    .badge {
-      width: 80px;
-      margin-top: 3px;
-      margin-right: 5px;
-      font-size: 100%;
-    }
-  </style>
 </head>
 <body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
 <main>
@@ -38,7 +30,7 @@
                             <label for="username">username</label>
                           </div>
                           <div class="form-group mb-3">
-                            <input type="password" class="form-control" id="password" onkeyup="enterCheck()"/>
+                            <input type="password" class="form-control" id="password" autocomplete="new-password" onkeyup="enterCheck()"/>
                             <label for="password">password</label>
                           </div>
                           <button type="button" class="submit-button btn btn-block btn-secondary my-4 mx-auto" onclick="login()">
