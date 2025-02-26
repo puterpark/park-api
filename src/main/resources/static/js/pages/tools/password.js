@@ -16,7 +16,7 @@ const setEvent = () => {
   const $pwLength = $('#pw-length');
   $pwLength.on('input', () => {
     const length = $pwLength.val();
-    if (length < 1) {
+    if (length < 1 || length > 10000) {
       $pwLength.val('');
       return;
     }
