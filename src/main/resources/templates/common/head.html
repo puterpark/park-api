@@ -2,13 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="head">
   <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title th:text="${title}"></title>
   <th:block th:if="${menu}">
     <meta name="description" th:content="${menu.description}" />
     <meta name="keywords" th:content="${menu.keywords}" />
   </th:block>
+  <th:block th:unless="${menu}">
+    <meta name="description" content="Puter의 공작소에 오신걸 환영합니다. 다양한 도구들을 사용해 보세요." />
+  </th:block>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title th:text="${title}"></title>
   <meta name="google-site-verification" content="ytP_CTlC_IE7wUbi15zdQ-71dinhMAuJIappIIQ_bfY" />
   <meta name="naver-site-verification" content="dac30b7a14acc19bfac759b28b531edb19196b98" />
   <th:block th:replace="~{common/favicon :: favicon}"></th:block>
