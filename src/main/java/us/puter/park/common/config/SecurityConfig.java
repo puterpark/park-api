@@ -14,14 +14,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import us.puter.park.api.member.enums.MemberRole;
 import us.puter.park.common.config.jwt.JwtAccessDeniedHandler;
 import us.puter.park.common.config.jwt.JwtAuthenticationEntryPoint;
-import us.puter.park.common.config.jwt.JwtFilter;
 import us.puter.park.common.config.jwt.TokenProvider;
+import us.puter.park.common.filter.JwtExceptionFilter;
+import us.puter.park.common.filter.JwtFilter;
+import us.puter.park.common.filter.PrimaryRoutingFilter;
 
 import java.util.List;
 
@@ -62,7 +65,9 @@ public class SecurityConfig {
                                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
+                .addFilterBefore(new PrimaryRoutingFilter(), SecurityContextHolderFilter.class)
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtFilter.class)
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers(

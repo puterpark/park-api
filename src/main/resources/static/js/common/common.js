@@ -49,3 +49,10 @@ const toggleLabelOnFocus = (id) => {
     }
   });
 };
+
+// X-Forced-Primary 설정
+const setForcedPrimaryHeader = (headers, useHeader) => {
+  if (useHeader) {
+    headers['X-Forced-Primary'] = 'true';
+  }
+}

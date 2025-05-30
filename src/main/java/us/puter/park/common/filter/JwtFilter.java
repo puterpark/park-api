@@ -1,4 +1,4 @@
-package us.puter.park.common.config.jwt;
+package us.puter.park.common.filter;
 
 
 import jakarta.servlet.Filter;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import us.puter.park.common.config.jwt.TokenProvider;
 
 import java.io.IOException;
 

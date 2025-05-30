@@ -126,8 +126,8 @@ $(document).ready(() => {
 });
 
 // 테이블 생성
-const renderTable = () => {
-  getShortenUrlList(1, 500);
+const renderTable = (isForcedPrimary = false) => {
+  getShortenUrlList(1, 500, isForcedPrimary);
 
   $('#data-table').DataTable({
     ordering: false,
@@ -144,16 +144,20 @@ const destroyTable = () => {
 };
 
 // shorten url 목록 조회
-const getShortenUrlList = (start, limit) => {
+const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
   loader(1);
+
+  const headers = {
+    'Authorization': 'Bearer ' + getCookie('accessToken')
+  };
+
+  setForcedPrimaryHeader(headers, useForcedPrimary);
 
   $.ajax({
     url: `/api/v1/admin/shorten-url/list?start=${start}&limit=${limit}`,
     type: 'GET',
     contentType: 'application/json',
-    headers: {
-      'Authorization': 'Bearer ' + getCookie('accessToken')
-    },
+    headers: headers,
     async: false,
     success: (succ) => {
       if (succ.code === 'S0000') {
@@ -238,7 +242,7 @@ const deleteShortenUrl = (id) => {
           if (succ.code === 'S0000') {
             swal('삭제되었습니다.', '', 'success');
             destroyTable();
-            renderTable();
+            renderTable(true);
           }
         },
         error: (err) => {
@@ -286,7 +290,7 @@ const updateShortenUrl = () => {
         swal('수정되었습니다.', '', 'success');
         $('#edit-modal').modal('hide');
         destroyTable();
-        renderTable();
+        renderTable(true);
       }
     },
     error: (err) => {
