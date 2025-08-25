@@ -28,9 +28,9 @@ spring:
     banner-mode: log
   data:
     redis:
-      host: ENC(uShSH2lZ4WOXB6zxyHykcKvk88T6konR)
-      port: 16379
-      password: ENC(YG7mEaWRQKOenzkeUbWqxCKaQFtpkIF3)
+      host: ENC(dbCk9Bp59xn8/UWo8V4i7GcGa5e5si/XYSm7bZDdhyP/HGc8M5clGLPTED8fcNrsh4T5+MBt8od0hSBCvtm8DVJYpIWZpo5/)
+      port: 10212
+      password: ENC(jviNW1UVjNAdIF27vWQ+D7Osnf8ISNAARKRw9uoM7vGR8nK2CRpigEN2zeYwG6Gy)
 
 logging:
   level:

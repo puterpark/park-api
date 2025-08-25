@@ -23,9 +23,9 @@ spring:
     sql-dialect: postgres
   data:
     redis:
-      host: ENC(ehNbsdHBjDlPZiXGmrAWYPVOngNWnZV7)
-      port: 16379
-      password: ENC(tZ0P/FkkrDmetIqqzKsqFxpQUL+WYnb3)
+      host: ENC(qr2i7knTIjsdwLMaoIKZZcy1NaVUhqIR5wzB0W7BMBY3U2dPRON8kuCRz1Dad44LqFdozVG6Zh8Ad9CfiIc81/nvD6Wp0sco)
+      port: 10212
+      password: ENC(DmSpNvK0fA4JSAMvshb+zCcWuul4wjjEAgvBGJ/yixTYZ/PfehAaAjfTvxAdhrS5)
 
 logging:
   level:
