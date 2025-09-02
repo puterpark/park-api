@@ -8,6 +8,42 @@
     #shorten-url-widget-main-chart {
       height: 42rem;
     }
+
+    #data-table {
+      table-layout: fixed;
+      min-width: 1280px;
+    }
+
+    th, td {
+      width: 160px;
+      white-space: nowrap;
+    }
+
+    .org-url {
+      width: 800px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+    }
+
+    #data-table th:first-child {
+      position: sticky;
+      left: 0;
+      background: #212529;
+      z-index: 2;
+    }
+
+    #data-table td:first-child {
+      position: sticky;
+      left: 0;
+      background: #fff;
+      z-index: 2;
+    }
+
+    #data-table tr:nth-of-type(odd) td:first-child {
+      background: #f2f2f2;
+    }
+
   </style>
 </head>
 <body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
@@ -92,20 +128,22 @@
                               <label>Search:<input type="text" id="search-input" value=""></label>
                             </div>
                           </div>
-                          <table class="table table-striped" id="data-table">
-                            <thead class="thead-dark">
-                              <tr>
-                                <th>shortenUri</th>
-                                <th>orgUrl</th>
-                                <th>lastAccessDate</th>
-                                <th>regDate</th>
-                                <th>modDate</th>
-                                <th>action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                          </table>
+                          <div class="table-responsive">
+                            <table class="table table-striped" id="data-table">
+                              <thead class="thead-dark">
+                                <tr>
+                                  <th>shortenUri</th>
+                                  <th class="org-url">orgUrl</th>
+                                  <th style="width: 200px;">action</th>
+                                  <th>lastAccessDate</th>
+                                  <th>regDate</th>
+                                  <th>modDate</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>

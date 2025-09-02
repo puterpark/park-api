@@ -119,27 +119,21 @@ $(document).ready(() => {
 
   renderTable();
 
-  $('#search-input').on('keyup', function() {
-    $('#data-table').DataTable().search(this.value).draw();
+  $('#search-input').on('keyup', (e) => {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+      destroyTable();
+      renderTable();
+    }
   });
-
 });
 
 // 테이블 생성
 const renderTable = (isForcedPrimary = false) => {
   getShortenUrlList(1, 500, isForcedPrimary);
-
-  $('#data-table').DataTable({
-    ordering: false,
-    responsive: true,
-    pageLength: 10,
-    dom: 'rt<"dataTables_footer"ip>',
-  });
 };
 
 // 테이블 제거
 const destroyTable = () => {
-  $('#data-table').DataTable().destroy();
   $('#data-table tbody').empty();
 };
 
@@ -153,8 +147,10 @@ const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
 
   setForcedPrimaryHeader(headers, useForcedPrimary);
 
+  const searchWord = document.getElementById('search-input').value;
+
   $.ajax({
-    url: `/api/v1/admin/shorten-url/list?start=${start}&limit=${limit}`,
+    url: `/api/v1/admin/shorten-url/list?start=${start}&limit=${limit}&searchWord=${searchWord}`,
     type: 'GET',
     contentType: 'application/json',
     headers: headers,
@@ -169,14 +165,14 @@ const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
           $('#data-table tbody').append(
               `<tr>
                 <td>${item.shortenUri}</td>
-                <td>${item.orgUrl}</td>
-                <td>${item.lastAccessDate ?? '-'}</td>
-                <td>${item.regDate}</td>
-                <td>${item.modDate ?? '-'}</td>
+                <td class="org-url">${item.orgUrl}</td>
                 <td>
                   <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit-modal" onclick="getShortenUrl('${item.id}')">수정</button>
                   <button type="button" class="btn badge-danger btn-sm" onclick="deleteShortenUrl('${item.id}')">삭제</button>
                 </td>
+                <td>${item.lastAccessDate ?? '-'}</td>
+                <td>${item.regDate}</td>
+                <td>${item.modDate ?? '-'}</td>
               </tr>`
           );
         }
