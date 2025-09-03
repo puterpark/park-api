@@ -43,3 +43,5 @@ logs/
 
 ### jooq generated ###
 src/generated/
+
+*.css.map

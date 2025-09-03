@@ -4,47 +4,8 @@
   <th:block th:replace="~{common/head :: head}"></th:block>
   <script type="text/javascript" src="/static/js/mousetrap.min.js"></script>
   <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
-  <style>
-    #shorten-url-widget-main-chart {
-      height: 42rem;
-    }
 
-    #data-table {
-      table-layout: fixed;
-      min-width: 1280px;
-    }
-
-    th, td {
-      width: 160px;
-      white-space: nowrap;
-    }
-
-    .org-url {
-      width: 800px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: normal;
-    }
-
-    #data-table th:first-child {
-      position: sticky;
-      left: 0;
-      background: #212529;
-      z-index: 2;
-    }
-
-    #data-table td:first-child {
-      position: sticky;
-      left: 0;
-      background: #fff;
-      z-index: 2;
-    }
-
-    #data-table tr:nth-of-type(odd) td:first-child {
-      background: #f2f2f2;
-    }
-
-  </style>
+  <link type="text/css" rel="stylesheet" href="/static/css/pages/admin/shorten-url.css">
 </head>
 <body class="layout layout-vertical layout-left-navigation layout-below-toolbar">
 <main>
@@ -124,16 +85,26 @@
                       <div class="widget card">
                         <div class="widget-content p-4 dataTables_wrapper">
                           <div class="widget-header px-4 row no-gutters align-items-center justify-content-between">
-                            <div class="dataTables_filter">
-                              <label>Search:<input type="text" id="search-input" value=""></label>
+                            <div class="col-8 col-sm-6 col-xl-4">
+                              <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-icon fuse-ripple-ready" onclick="getShortenUrlList(0, 10)">
+                                        <i class="icon icon-magnify"></i>
+                                    </button>
+                                </span>
+                                <input type="text" id="search-input" class="form-control" placeholder="검색어">
+                              </div>
+                            </div>
+                            <div>
+                              <span class="badge badge-info">총 <span id="total-count">0</span>개</span>
                             </div>
                           </div>
                           <div class="table-responsive">
                             <table class="table table-striped" id="data-table">
                               <thead class="thead-dark">
                                 <tr>
-                                  <th>shortenUri</th>
-                                  <th class="org-url">orgUrl</th>
+                                  <th class="shorten-uri-col">shortenUri</th>
+                                  <th class="org-url-col">orgUrl</th>
                                   <th style="width: 200px;">action</th>
                                   <th>lastAccessDate</th>
                                   <th>regDate</th>

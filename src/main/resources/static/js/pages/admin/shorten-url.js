@@ -147,10 +147,14 @@ const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
 
   setForcedPrimaryHeader(headers, useForcedPrimary);
 
-  const searchWord = document.getElementById('search-input').value;
+  const searchParam = new URLSearchParams({
+    start,
+    limit,
+    searchWord: document.getElementById('search-input').value
+  });
 
   $.ajax({
-    url: `/api/v1/admin/shorten-url/list?start=${start}&limit=${limit}&searchWord=${searchWord}`,
+    url: `/api/v1/admin/shorten-url/list?${searchParam}`,
     type: 'GET',
     contentType: 'application/json',
     headers: headers,
@@ -158,14 +162,14 @@ const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
     success: (succ) => {
       if (succ.code === 'S0000') {
         const data = succ.data;
-        const list = data.list;
 
-        for (let l in list) {
-          const item = list[l];
+        document.getElementById('total-count').innerText = data.totalCount;
+
+        data.list.forEach(item => {
           $('#data-table tbody').append(
               `<tr>
-                <td>${item.shortenUri}</td>
-                <td class="org-url">${item.orgUrl}</td>
+                <td class="shorten-uri-col">${item.shortenUri}</td>
+                <td class="org-url-col">${item.orgUrl}</td>
                 <td>
                   <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit-modal" onclick="getShortenUrl('${item.id}')">수정</button>
                   <button type="button" class="btn badge-danger btn-sm" onclick="deleteShortenUrl('${item.id}')">삭제</button>
@@ -175,7 +179,7 @@ const getShortenUrlList = (start, limit, useForcedPrimary = false) => {
                 <td>${item.modDate ?? '-'}</td>
               </tr>`
           );
-        }
+        });
       }
     },
     error: (err) => {
