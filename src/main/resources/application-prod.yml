@@ -14,14 +14,14 @@ spring:
   datasource:
     primary:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(mKGjMVADc8F/JMB+t/XOZhLlDMKQAh0vnVTQiWbN1CbL7uQ/GOWTmMWXRqpCpPyiFBrskmmJH6c=)
-      username: ENC(s6fCUvCuR7VN5MLEZ5NOow==)
-      password: ENC(5c2oXdA/jQK6yX6RhoTl/a6Uz9oIVBsT)
+      jdbc-url: ENC(vGPGnw9mIua1DuXRJA9fUBleJ8m0qcQPnLo43vXqe62M6hGo2yfGiCyuneSUFQsuntUmZJR/CgE=)
+      username: ENC(/imwFu5Vio1C1ZMrOtOAPzsLTwTdj5so)
+      password: ENC(Ogz9wvjOfDFisQZrp+hTLZU3/3F6uOVSxeBIPMuxWOQ=)
     replica:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ENC(2MjmWcKsnBuhJbCVC4+dowpMJP5sW62k0QSuh2YCVINob32ZyI4CjcjfwRMSbQZtdmw0i+k0zlE=)
-      username: ENC(u/5zgrSlIw93cEWvmTn8lg==)
-      password: ENC(2e07FrnlgXtx+deFeaII/1ycL04i54p9)
+      jdbc-url: ENC(Ion1AeOFJCx9OJSZpf57dfNlMHPOsIVCDFj6NWq1dntljYb6WnYHUwpYioXTYZwj+cV60l7Ahfk=)
+      username: ENC(qboGvjEoTiWm6NzzaFQAfcGJblh6Irgm)
+      password: ENC(rg0liu6pBT2myF/92M6GqZAFq7719ycyYzjtJCbYZYo=)
   jooq:
     sql-dialect: postgres
   main:
