@@ -10,9 +10,11 @@ public record AdminShortenUrlStatisticResDto(
         Integer todayRedirectCount,
         // 오늘 가장 많이 접속한 IP
         String todayMostAccessIp,
-        // 7일 전부터 많이 접근한 URI/COUNT 목록 5개
-        List<ShortenUrlCountDto> top5day7,
-        // 30일 전부터 많이 접근한 URI/COUNT 목록 5개
-        List<ShortenUrlCountDto> top5day30
+        // 오늘 기준 - 많이 접근한 URI/COUNT 목록 5개
+        List<ShortenUrlCountDto> todayTop5,
+        // 1주 기준 - 많이 접근한 URI/COUNT 목록 5개
+        List<ShortenUrlCountDto> weekTop5,
+        // 한달 기준 - 많이 접근한 URI/COUNT 목록 5개
+        List<ShortenUrlCountDto> monthTop5
 ) {
 }

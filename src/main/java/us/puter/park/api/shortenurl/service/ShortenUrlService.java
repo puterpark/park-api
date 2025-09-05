@@ -146,8 +146,9 @@ public class ShortenUrlService {
         return AdminShortenUrlStatisticResDto.builder()
                 .todayRedirectCount(shortenUrlAccessRepository.countTodayRedirect())
                 .todayMostAccessIp(shortenUrlAccessRepository.findMostAccessIp())
-                .top5day7(shortenUrlRepository.findShortenUrlCountTop5(-7))
-                .top5day30(shortenUrlRepository.findShortenUrlCountTop5(-30))
+                .todayTop5(shortenUrlRepository.findShortenUrlCountTop5(0))
+                .weekTop5(shortenUrlRepository.findShortenUrlCountTop5(-7))
+                .monthTop5(shortenUrlRepository.findShortenUrlCountTop5(-30))
                 .build();
     }
 

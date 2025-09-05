@@ -1,6 +1,7 @@
 $(document).ready(() => {
-  let top5day7 = {};
-  let top5day30 = {};
+  let todayTop5 = {};
+  let weekTop5 = {};
+  let monthTop5 = {};
 
   loader(1);
 
@@ -17,8 +18,9 @@ $(document).ready(() => {
         const data = succ.data;
         $('#today-redirect-count').text(`${data.todayRedirectCount}`);
         $('#today-most-access-ip').text(`${data.todayMostAccessIp}`);
-        top5day7 = data.top5day7;
-        top5day30 = data.top5day30;
+        todayTop5 = data.todayTop5;
+        weekTop5 = data.weekTop5;
+        monthTop5 = data.monthTop5;
       }
     },
     error: (err) => {
@@ -30,30 +32,37 @@ $(document).ready(() => {
   });
 
   let data = {
-    "shortenUrlWidget": {
-      "title": "[TOP 5] Shorten URL",
-      "ranges": {
-        "07D": "7 Days",
-        "30D": "30 Days",
+    'shortenUrlWidget': {
+      'title': '[TOP 5] Shorten URL',
+      'ranges': {
+        'today': 'today',
+        'week': 'week',
+        'month': 'month',
       },
-      "mainChart": {
-        "07D": [
+      'mainChart': {
+        'today': [
           {
-            "key": "Redirect Count",
-            "values": top5day7
+            'key': 'Redirect Count',
+            'values': todayTop5
           }
         ],
-        "30D": [
+        'week': [
           {
-            "key": "Redirect Count",
-            "values": top5day30
+            'key': 'Redirect Count',
+            'values': weekTop5
+          }
+        ],
+        'month': [
+          {
+            'key': 'Redirect Count',
+            'values': monthTop5
           }
         ]
       }
     }
   };
 
-  let shortenUrlWidgetOption = '07D';
+  let shortenUrlWidgetOption = 'today';
   // Main Chart
   nv.addGraph(function() {
     let chart = nv.models.multiBarChart()
@@ -91,9 +100,7 @@ $(document).ready(() => {
 
     nv.utils.windowResize(chart.update);
 
-    $(window).bind('update:shortenUrlWidget', function() {
-      initChart();
-    })
+    $(window).bind('update:shortenUrlWidget', () => initChart());
 
     function initChart() {
       chartData = data.shortenUrlWidget.mainChart[shortenUrlWidgetOption];
@@ -104,7 +111,7 @@ $(document).ready(() => {
   });
 
   const $shortenUrlWidgetBtn = $('.shorten-url-widget-option-change-btn');
-  $shortenUrlWidgetBtn.on('click', function(ev) {
+  $shortenUrlWidgetBtn.on('click', (ev) => {
     const target = ev.target
         , $target = $(target);
 
