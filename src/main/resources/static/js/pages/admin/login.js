@@ -1,10 +1,10 @@
-enterCheck = () => {
+const enterCheck = () => {
   if (event.keyCode === 13) {
     login();
   }
 }
 
-login = () => {
+const login = () => {
   const username = $('#username').val();
   const password = $('#password').val();
 

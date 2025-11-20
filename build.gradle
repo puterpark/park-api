@@ -69,6 +69,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // biweekly
+    implementation 'net.sf.biweekly:biweekly:0.6.8'
 }
 
 tasks.named('test') {

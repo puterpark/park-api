@@ -18,7 +18,20 @@
             <th:block th:replace="~{common/top :: top}"></th:block>
             <!-- CONTENT -->
             <div class="page-content">
-              <th:block th:replace="~{common/top-menu :: top-menu}"></th:block>
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link btn" id="home-tab" href="/">
+                    <i class="icon s-4 icon-home"></i>
+                    Home
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link btn" id="refresh-tab" onclick="refreshHoliday()">
+                    <i class="icon s-4 icon-calendar-blank"></i>
+                    Refresh Holiday
+                  </a>
+                </li>
+              </ul>
               <div class="tab-content">
                 <div class="tab-pane fade show active p-2" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab">
                   <!-- WIDGET GROUP -->
@@ -164,6 +177,7 @@
   </div>
   <!-- / 수정 모달 -->
   <script type="text/javascript" src="/static/js/pages/admin/shorten-url.js"></script>
+  <script type="text/javascript" src="/static/js/pages/admin/holiday.js"></script>
 </main>
 <th:block th:replace="~{common/footer :: footer}"></th:block>
 </body>
