@@ -24,6 +24,7 @@ import us.puter.park.api.shortenurl.dto.ShortenUrlDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlResDto;
 import us.puter.park.api.shortenurl.dto.ShortenUrlUpdateReqDto;
 import us.puter.park.api.shortenurl.repository.ShortenUrlAccessRepository;
+import us.puter.park.api.shortenurl.repository.ShortenUrlRedisRepository;
 import us.puter.park.api.shortenurl.repository.ShortenUrlRepository;
 import us.puter.park.common.config.CommonVariables;
 import us.puter.park.common.exception.BusinessException;
@@ -46,6 +47,7 @@ public class ShortenUrlService {
     private final RestClientUtils restClientUtils;
     private final ShortenUrlRepository shortenUrlRepository;
     private final ShortenUrlAccessRepository shortenUrlAccessRepository;
+    private final ShortenUrlRedisRepository shortenUrlRedisRepository;
 
     /**
      * shortenUrl 추가
@@ -89,7 +91,15 @@ public class ShortenUrlService {
     @Transactional
     public void redirectOrgUrl(String shortenUri, HttpServletRequest req, HttpServletResponse res) {
         // 단축 링크 기본 정보 조회
-        ShortenUrlDto urlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
+        ShortenUrlDto urlDto = shortenUrlRedisRepository.findByShortenUri(shortenUri)
+                .orElseGet(() -> {
+                    ShortenUrlDto shortenUrlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
+                    if (shortenUrlDto != null) {
+                        shortenUrlRedisRepository.save(shortenUri, shortenUrlDto);
+                    }
+                    return shortenUrlDto;
+                });
+
         if (urlDto == null || StringUtils.isBlank(urlDto.orgUrl())) {
             log.info("not found shortenUri[{}]", shortenUri);
             try {
@@ -191,8 +201,9 @@ public class ShortenUrlService {
      */
     @Transactional
     public void updateShortenUrl(String id, ShortenUrlUpdateReqDto reqDto) {
-        // 단축 링크 존재여부 검증
-        if (!shortenUrlRepository.existsById(UUID.fromString(id))) {
+        // 단축 링크 조회
+        ShortenUrl shortenUrl = shortenUrlRepository.findById(UUID.fromString(id));
+        if (shortenUrl == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL);
         }
 
@@ -212,6 +223,9 @@ public class ShortenUrlService {
         updateFields.put(SHORTEN_URL.MOD_DATE, LocalDateTime.now());
         shortenUrlRepository.updateShortenUrl(id, updateFields);
         log.info("update shortenUrl: shortenUri[{}], orgUrl[{}]", shortenUri, orgUrl);
+
+        // redis cache 삭제
+        shortenUrlRedisRepository.delete(shortenUrl.shortenUri());
     }
 
     /**
@@ -220,13 +234,19 @@ public class ShortenUrlService {
      */
     @Transactional
     public void deleteShortenUrl(String id) {
-        // 단축 링크 존재여부 검증
-        if (!shortenUrlRepository.existsById(UUID.fromString(id))) {
+        UUID shortenUrlId = UUID.fromString(id);
+
+        // 단축 링크 조회
+        ShortenUrl shortenUrl = shortenUrlRepository.findById(shortenUrlId);
+        if (shortenUrl == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL);
         }
 
         // 단축 링크 삭제
-        shortenUrlRepository.deleteById(UUID.fromString(id));
-        log.info("update shortenUrl: id[{}]", id);
+        shortenUrlRepository.deleteById(shortenUrlId);
+        log.info("delete shortenUrl: id[{}]", id);
+
+        // redis cache 삭제
+        shortenUrlRedisRepository.delete(shortenUrl.shortenUri());
     }
 }
