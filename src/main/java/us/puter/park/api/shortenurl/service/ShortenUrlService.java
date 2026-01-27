@@ -101,7 +101,13 @@ public class ShortenUrlService {
                 });
 
         if (urlDto == null || StringUtils.isBlank(urlDto.orgUrl())) {
-            throw new BusinessException(ErrorCode.NOT_FOUND_SHORTEN_URL, MessageFormat.format("shortenUri[{0}]", shortenUri));
+            log.info("not found shortenUri[{}]", shortenUri);
+            try {
+                res.sendRedirect("https://puter.us/error/404");
+                return;
+            } catch (IOException e) {
+                throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+            }
         }
 
         String orgUrl = urlDto.orgUrl();
