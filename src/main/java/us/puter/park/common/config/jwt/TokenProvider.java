@@ -157,16 +157,16 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("malformed token: uri[{}]", requestURI);
-            errorCode = ErrorCode.AUTH_FAIL;
+            errorCode = ErrorCode.UNCOMMON_TOKEN;
         } catch (ExpiredJwtException e) {
             log.info("expired token: uri[{}]", requestURI);
             errorCode = ErrorCode.ACCESS_TOKEN_EXPIRED;
         } catch (UnsupportedJwtException e) {
             log.info("unsupported token: uri[{}]", requestURI);
-            errorCode = ErrorCode.AUTH_FAIL;
+            errorCode = ErrorCode.UNCOMMON_TOKEN;
         } catch (IllegalArgumentException e) {
             log.info("illegal token: uri[{}]", requestURI);
-            errorCode = ErrorCode.AUTH_FAIL;
+            errorCode = ErrorCode.UNCOMMON_TOKEN;
         }
         request.setAttribute("ErrorCode", errorCode);
         return false;

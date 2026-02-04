@@ -1,6 +1,7 @@
 package us.puter.park.api.page.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import us.puter.park.api.menu.service.MenuService;
 import us.puter.park.common.config.jwt.TokenProvider;
+
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,16 +21,14 @@ public class PageController {
 
     // 메인 페이지
     @GetMapping("/")
-    public String getIndex(
-            Model model
-            , HttpServletRequest request
-    ) {
-        menuService.setModelFromMenu(request, model, "home");
-        return "index/index";
+    public void getIndex(
+            HttpServletResponse res
+    ) throws IOException {
+        res.sendRedirect("https://puter.us");
     }
 
     // 도구 페이지
-    @GetMapping("/tools/{mode}")
+//    @GetMapping("/tools/{mode}")
     public String getToolsMode(
             @PathVariable String mode
             , Model model
@@ -37,19 +38,19 @@ public class PageController {
     }
 
     // robots.txt 페이지
-    @GetMapping("/robots.txt")
+//    @GetMapping("/robots.txt")
     public String getRobotsTxt() {
         return "robots.txt";
     }
 
     // ads.txt 페이지
-    @GetMapping("/ads.txt")
+//    @GetMapping("/ads.txt")
     public String getAdsTxt() {
         return "ads.txt";
     }
 
     // 관리자 로그인 페이지
-    @GetMapping("/admin")
+//    @GetMapping("/admin")
     public String getAdmin(
             Model model
             , HttpServletRequest request
@@ -64,7 +65,7 @@ public class PageController {
     }
 
     // 관리자 단축 링크 통계 페이지
-    @GetMapping("/admin/shorten-url")
+//    @GetMapping("/admin/shorten-url")
     public String getAdminTest(
             Model model
             , HttpServletRequest request

@@ -20,6 +20,7 @@ public enum ErrorCode {
     , ACCESS_TOKEN_EXPIRED(401, "F0006", "Access Token Expired")
     , REFRESH_TOKEN_EXPIRED(401, "F0007", "Refresh Token Expired")
     , NOT_FOUND_RESOURCE(404, "F0008", "Not Found Resource")
+    , UNCOMMON_TOKEN(401, "F0009", "Uncommon Token")
 
     // 4XX - 커스텀
     , INVALID_REQ_PARAM(400, "F1001", "Invalid Request Parameter")
