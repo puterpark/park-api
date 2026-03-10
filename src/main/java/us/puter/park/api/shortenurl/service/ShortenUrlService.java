@@ -91,14 +91,24 @@ public class ShortenUrlService {
     @Transactional
     public void redirectOrgUrl(String shortenUri, HttpServletRequest req, HttpServletResponse res) {
         // 단축 링크 기본 정보 조회
-        ShortenUrlDto urlDto = shortenUrlRedisRepository.findByShortenUri(shortenUri)
-                .orElseGet(() -> {
-                    ShortenUrlDto shortenUrlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
-                    if (shortenUrlDto != null) {
-                        shortenUrlRedisRepository.save(shortenUri, shortenUrlDto);
-                    }
-                    return shortenUrlDto;
-                });
+        ShortenUrlDto urlDto;
+        try {
+            urlDto = shortenUrlRedisRepository.findByShortenUri(shortenUri)
+                    .orElseGet(() -> {
+                        ShortenUrlDto shortenUrlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
+                        if (shortenUrlDto != null) {
+                            try {
+                                shortenUrlRedisRepository.save(shortenUri, shortenUrlDto);
+                            } catch (Exception e) {
+                                log.warn("fail saving redis: shortenUri[{}], error[{}]", shortenUri, e.getMessage());
+                            }
+                        }
+                        return shortenUrlDto;
+                    });
+        } catch (Exception e) {
+            log.warn("fail reading redis: shortenUri[{}], error[{}]", shortenUri, e.getMessage());
+            urlDto = shortenUrlRepository.findOrgUrlByShortenUri(shortenUri);
+        }
 
         if (urlDto == null || StringUtils.isBlank(urlDto.orgUrl())) {
             log.info("not found shortenUri[{}]", shortenUri);
